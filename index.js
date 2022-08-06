@@ -59,10 +59,11 @@ function ausgangsFeld(feld, bewegung) {
 	}
 
 	console.log('iAusgang:', iAusgangsFeld, 'jAusgang:', jAusgangsFeld)
-	console.log(koordinaten[iAusgangsFeld][jAusgangsFeld])
+
+	return koordinaten[iAusgangsFeld][jAusgangsFeld]
 }
 
-ausgangsFeld('b8', 'rechts')
+console.log(ausgangsFeld('a1', 'rechts'))
 
 // Das Brett, mit den aktuellen Positionen der Figuren
 // wenn Uppercase Buchstabe, dann weiße Figur - wird sammt State, Koordinate und Figur an
@@ -77,3 +78,6 @@ const brettState = [
 	['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
 	['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
 ]
+
+// Überträgt einen Zug auf direkt auf den Brett-State, ohne zu überprüfen, ob der Zug legitim  ist
+function zugMachen(zugNotation) {}
