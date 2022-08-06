@@ -1,3 +1,3 @@
 # engine-core
 
-Ausführen der C++ Datei:
+JavaScript draft für die Schach-Engine, wird später in C++ übersetzt.
