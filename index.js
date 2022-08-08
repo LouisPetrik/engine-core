@@ -1,6 +1,6 @@
 // Datei verwein
 
-const Pawn = require('./figuren/Pawn.js')
+import { moeglicheZuege } from './figuren/Pawn'
 import { feldbezeichnungZuKoord } from './Util.js'
 
 // Relevante werte für die partie: (muss final in eine klasse), aber bisher nur zum testen hier drinne
@@ -32,7 +32,7 @@ let brettState = [
 
 // Überträgt einen Zug auf direkt auf den Brett-State, ohne zu überprüfen, ob der Zug legitim  ist
 // zug notation muss in der koordinaten notation "e2-e4", also Ausgangsfeld-Zielfeld seien.
-// gibt dann den veränderten brett-state zurück
+// gibt dann den veränderten brett-state zurück. Bisher nicht ausgegliedert, da direkt auf den brettState zugegriffen wird.
 function zugMachen(zugNotation) {
   // ausgeben des aktuellen zuges
   if (halbzugNummer % 2 === 0) {
@@ -65,15 +65,53 @@ function zugMachen(zugNotation) {
 
   // checken, ob der zug legitim ist: Dafür wird nur das Ausgangsfeld und das mögliche Zielfeld übergeben -
   // die Methode zum Checken generiert alle legitimen zielfelder
+  // Hier Gabelung aller möglichen Figuren - König, Dame, Bauer, Springer, Läufer, Turm
+  // Hier werden die möglichen Züge der gerade zu-bewegenden Figur aus der entsprechenden Methode geholt und
+  // untersucht, ob der wunsch-zug legitim ist. Statt Figurenzeichen zu lower-case zu casten wird erstmal für beide Farben die möglichkeit gechecked und erhalten
+  const moeglicheZuege = []
+
+  switch (figurZeichen) {
+    case 'P':
+    case 'p':
+      console.log('Ein Bauer wurde bewegt')
+      break
+
+    case 'K':
+    case 'k':
+      break
+
+    case 'Q':
+    case 'q':
+      break
+
+    case 'N':
+    case 'n':
+      break
+
+    case 'B':
+    case 'b':
+      break
+
+    case 'R':
+    case 'r':
+      break
+  }
 
   // Figur auf dem Brett auf das Zielfeld bewegen - das Ausgangsfeld, was nun leer ist, wird durch einen "." markiert
   brettState[iAusgangsfeld][jAusgangsfeld] = '.'
   brettState[iZielfeld][jZielfeld] = figurZeichen
 
+  // nun ist wieder die andere Farbe am Zug
+  weißAmZug = !weißAmZug
+
   return brettState
 }
 
-//
+function spielen() {}
+
+/* LOGIK FÜR SPIELABLAUF 
+Weiß am Zug ,Schwarz etc. durch Überprüfung */
+
 zugMachen('e2-e4')
 zugMachen('e7-e5')
 
