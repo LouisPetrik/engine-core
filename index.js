@@ -1,7 +1,7 @@
 // Datei verwein
 
 import { moeglicheZuegePawn } from './figuren/Pawn'
-import { feldbezeichnungZuKoord } from './Util.js'
+import { feldbezeichnungZuKoord, isArrayInArray } from './Util.js'
 
 // Relevante werte für die partie: (muss final in eine klasse), aber bisher nur zum testen hier drinne
 let weißAmZug = true
@@ -92,7 +92,7 @@ function zugMachen(zugNotation) {
 			)
 
 			console.log('Legitime Züge für diesen Bauern: ', moeglicheZuege)
-			if (moeglicheZuege.includes([iZielfeld, jZielfeld])) {
+			if (isArrayInArray(moeglicheZuege, [iZielfeld, jZielfeld])) {
 				console.log('Zug ist legitim')
 			} else {
 				console.log('BauernZug ist NICHT legitim!')
