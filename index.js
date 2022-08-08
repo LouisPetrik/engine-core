@@ -11,6 +11,11 @@ let posSchwarzerKing = 'e8'
 let weißHatRochiert = false
 let schwarzHatRochiert = false
 
+// wann immer ein Bauer einen Doppelschritt aus der Grundstellung gemacht hat, kann hier seine Linie vermerkt werden
+// (j-Koordinatenwert) Damit kann gecheckt werden, ob dieser Bauer durch En-passant geschlagen werden kann.
+// muss noch aufgehoben werden, irgendwie - später
+let doppelZugBauer
+
 // Die Nummer des aktuellen Halbzuges (fängt bei logischerweise bei 1 an)
 let halbzugNummer = 1
 
@@ -133,6 +138,8 @@ spielen()
 Weiß am Zug ,Schwarz etc. durch Überprüfung */
 
 zugMachen('e2-e4')
+zugMachen('f7-f5')
+zugMachen('e4-f5')
 
 /*
 zugMachen('g1-f3')

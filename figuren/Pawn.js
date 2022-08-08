@@ -46,6 +46,20 @@ export function moeglicheZuegePawn(ausgangsfeldKoord, brettState, weißAmZug) {
 		} else {
 			console.log('direkt vor weißem Bauer steht eine Figur')
 		}
+
+		// testen, ob weiß nach oben-rechts schlagen kann
+		if (['q', 'p', 'r', 'n', 'b'].includes(brettState[i - 1][j + 1])) {
+			console.log(
+				'gegnerische, schlagbare Figur steht oben-rechts von weißem Bauern'
+			)
+		}
+
+		// testen, ob weiß nach oben-links schlagen kann
+		if (['q', 'p', 'r', 'n', 'b'].includes(brettState[i - 1][j - 1])) {
+			console.log(
+				'gegnerische, schlagbare Figur steht oben-links von weißem Bauern'
+			)
+		}
 	}
 
 	// Der Bauer wurde von schwarz gezogen
