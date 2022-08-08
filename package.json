@@ -1,0 +1,14 @@
+{
+  "name": "engine-core",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/LouisPetrik/engine-core.git",
+  "author": "Louis <33809479+LouisPetrik@users.noreply.github.com>",
+  "license": "MIT",
+  "dependencies": {
+    "esm": "^3.2.25"
+  },
+  "scripts": {
+    "start": "node -r esm index.js"
+  }
+}
