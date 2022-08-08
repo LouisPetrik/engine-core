@@ -19,7 +19,7 @@ bei weiß in höhe 2 und für schwarz in höhe 7 ist, ist der bauer in ausgangsl
  * @returns zuege
  */
 export function moeglicheZuegePawn(ausgangsfeldKoord, brettState, weißAmZug) {
-	const zuege = ['']
+	const zuege = []
 
 	// testen, ob direkt vor dem bauer eine figur schlägt -> nicht ein feld und auch keine zwei züge möglich
 	// Für weiß und schwarz muss das unterschiedlich behandelt werden. Weiß: i-1, Schwarz: i+1
@@ -39,7 +39,7 @@ export function moeglicheZuegePawn(ausgangsfeldKoord, brettState, weißAmZug) {
 			// Dafür muss Bauer in Grundlinie (für weiß, i = 6 sein)
 			if (brettState[i - 2][j] == '.' && i == 6) {
 				console.log('Doppelschritt aus Grundlinie möglich ')
-				zuege.push([i - 2][j])
+				zuege.push([i - 2, j])
 			} else {
 				console.log('Doppelschritt für weißen Bauern nicht möglich')
 			}
@@ -52,6 +52,7 @@ export function moeglicheZuegePawn(ausgangsfeldKoord, brettState, weißAmZug) {
 			console.log(
 				'gegnerische, schlagbare Figur steht oben-rechts von weißem Bauern'
 			)
+			zuege.push([i - 1, j + 1])
 		}
 
 		// testen, ob weiß nach oben-links schlagen kann
@@ -59,6 +60,7 @@ export function moeglicheZuegePawn(ausgangsfeldKoord, brettState, weißAmZug) {
 			console.log(
 				'gegnerische, schlagbare Figur steht oben-links von weißem Bauern'
 			)
+			zuegeg.push([i - 1, j - 1])
 		}
 	}
 

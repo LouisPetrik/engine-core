@@ -84,12 +84,19 @@ function zugMachen(zugNotation) {
 	switch (figurZeichen) {
 		case 'P':
 		case 'p':
-			console.log('Ein Bauer wurde bewegt')
+			console.log('Bauer auf das Zielfeld', iZielfeld, jZielfeld)
 			moeglicheZuege = moeglicheZuegePawn(
 				[iAusgangsfeld, jAusgangsfeld],
 				brettState,
 				weißAmZug
 			)
+
+			console.log('Legitime Züge für diesen Bauern: ', moeglicheZuege)
+			if (moeglicheZuege.includes([iZielfeld, jZielfeld])) {
+				console.log('Zug ist legitim')
+			} else {
+				console.log('BauernZug ist NICHT legitim!')
+			}
 			break
 
 		case 'K':
@@ -138,8 +145,6 @@ spielen()
 Weiß am Zug ,Schwarz etc. durch Überprüfung */
 
 zugMachen('e2-e4')
-zugMachen('f7-f5')
-zugMachen('e4-f5')
 
 /*
 zugMachen('g1-f3')
