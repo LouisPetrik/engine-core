@@ -1,6 +1,7 @@
 // Datei verwein
 
 import { moeglicheZuegePawn } from './figuren/Pawn'
+import { moeglicheZuegeKnight } from './figuren/Knight'
 import { feldbezeichnungZuKoord, isArrayInArray } from './Util.js'
 
 // Relevante werte für die partie: (muss final in eine klasse), aber bisher nur zum testen hier drinne
@@ -84,18 +85,21 @@ function zugMachen(zugNotation) {
 	switch (figurZeichen) {
 		case 'P':
 		case 'p':
-			console.log('Bauer auf das Zielfeld', iZielfeld, jZielfeld)
+			//console.log('Bauer auf das Zielfeld', iZielfeld, jZielfeld)
 			moeglicheZuege = moeglicheZuegePawn(
 				[iAusgangsfeld, jAusgangsfeld],
 				brettState,
 				weißAmZug
 			)
 
-			console.log('Legitime Züge für diesen Bauern: ', moeglicheZuege)
+			//console.log('Legitime Züge für diesen Bauern: ', moeglicheZuege)
 			if (isArrayInArray(moeglicheZuege, [iZielfeld, jZielfeld])) {
 				console.log('Zug ist legitim')
 			} else {
-				console.log('BauernZug ist NICHT legitim!')
+				//console.log('Bauern Zug NICHT legitim')
+				if (!weißAmZug) {
+					//console.log('Weil noch nicht für Schwarz :) ')
+				}
 			}
 			break
 
@@ -112,6 +116,17 @@ function zugMachen(zugNotation) {
 		case 'N':
 		case 'n':
 			console.log('Springer wurde bewegt')
+			moeglicheZuege = moeglicheZuegeKnight(
+				[iAusgangsfeld, jAusgangsfeld],
+				brettState,
+				weißAmZug
+			)
+
+			console.log('Mögliche Springer-Züge', moeglicheZuege)
+
+			if (isArrayInArray(moeglicheZuege, [iZielfeld, jZielfeld])) {
+				console.log('Zug ist legitim')
+			}
 			break
 
 		case 'B':
@@ -143,9 +158,10 @@ spielen()
 
 /* LOGIK FÜR SPIELABLAUF 
 Weiß am Zug ,Schwarz etc. durch Überprüfung */
-
+// Hier nach gibt es drei legitime Züge für Springer
 zugMachen('e2-e4')
-
+zugMachen('e7-e5')
+zugMachen('g1-f3')
 /*
 zugMachen('g1-f3')
 zugMachen('b8-c6')

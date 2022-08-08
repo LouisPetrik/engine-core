@@ -31,20 +31,20 @@ export function moeglicheZuegePawn(ausgangsfeldKoord, brettState, weißAmZug) {
 	// Der Bauer wurde von weiß gezogen:
 	if (weißAmZug) {
 		if (brettState[i - 1][j] == '.') {
-			console.log('Feld direkt vor Bauer ist frei')
+			//console.log('Feld direkt vor Bauer ist frei')
 			// wird erstmals als i und j koordinate im array in den möglichen zügen gespeichert (ausgangsfeld)
 			zuege.push([i - 1, j])
 
 			// insofern 1 vor dem bauern frei ist, testen, ob zwei nach vorne aus grundstellung möglich ist:
 			// Dafür muss Bauer in Grundlinie (für weiß, i = 6 sein)
 			if (brettState[i - 2][j] == '.' && i == 6) {
-				console.log('Doppelschritt aus Grundlinie möglich ')
+				//console.log('Doppelschritt aus Grundlinie möglich ')
 				zuege.push([i - 2, j])
 			} else {
-				console.log('Doppelschritt für weißen Bauern nicht möglich')
+				//console.log('Doppelschritt für weißen Bauern nicht möglich')
 			}
 		} else {
-			console.log('direkt vor weißem Bauer steht eine Figur')
+			//console.log('direkt vor weißem Bauer steht eine Figur')
 		}
 
 		// testen, ob weiß nach oben-rechts schlagen kann
@@ -60,7 +60,7 @@ export function moeglicheZuegePawn(ausgangsfeldKoord, brettState, weißAmZug) {
 			console.log(
 				'gegnerische, schlagbare Figur steht oben-links von weißem Bauern'
 			)
-			zuegeg.push([i - 1, j - 1])
+			zuege.push([i - 1, j - 1])
 		}
 	}
 
