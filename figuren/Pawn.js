@@ -20,103 +20,175 @@ bei weiß in höhe 2 und für schwarz in höhe 7 ist, ist der bauer in ausgangsl
  * @returns zuege
  */
 export function moeglicheZuegePawn(
-  ausgangsfeldKoord,
-  brettState,
-  weißAmZug,
-  enPassantBauer
+	ausgangsfeldKoord,
+	brettState,
+	weißAmZug,
+	enPassantBauer
 ) {
-  const zuege = []
+	const zuege = []
 
-  // testen, ob direkt vor dem bauer eine figur schlägt -> nicht ein feld und auch keine zwei züge möglich
-  // Für weiß und schwarz muss das unterschiedlich behandelt werden. Weiß: i-1, Schwarz: i+1
-  // Dafür handeln wir einen möglichen schwarzen und einen möglichen weißen Zug unabhängig
+	// testen, ob direkt vor dem bauer eine figur schlägt -> nicht ein feld und auch keine zwei züge möglich
+	// Für weiß und schwarz muss das unterschiedlich behandelt werden. Weiß: i-1, Schwarz: i+1
+	// Dafür handeln wir einen möglichen schwarzen und einen möglichen weißen Zug unabhängig
 
-  const i = ausgangsfeldKoord[0]
-  const j = ausgangsfeldKoord[1]
+	const i = ausgangsfeldKoord[0]
+	const j = ausgangsfeldKoord[1]
 
-  // Der Bauer wurde von weiß gezogen:
-  if (weißAmZug) {
-    if (brettState[i - 1][j] == '.') {
-      //console.log('Feld direkt vor Bauer ist frei')
-      // wird erstmals als i und j koordinate im array in den möglichen zügen gespeichert (ausgangsfeld)
-      zuege.push([i - 1, j])
+	// Der Bauer wurde von weiß gezogen:
+	if (weißAmZug) {
+		if (brettState[i - 1][j] == '.') {
+			//console.log('Feld direkt vor Bauer ist frei')
+			// wird erstmals als i und j koordinate im array in den möglichen zügen gespeichert (ausgangsfeld)
+			zuege.push([i - 1, j])
 
-      // insofern 1 vor dem bauern frei ist, testen, ob zwei nach vorne aus grundstellung möglich ist:
-      // Dafür muss Bauer in Grundlinie (für weiß, i = 6 sein)
-      if (brettState[i - 2][j] == '.' && i == 6) {
-        //console.log('Doppelschritt aus Grundlinie möglich ')
-        zuege.push([i - 2, j])
-      } else {
-        //console.log('Doppelschritt für weißen Bauern nicht möglich')
-      }
-    } else {
-      //console.log('direkt vor weißem Bauer steht eine Figur')
-    }
+			// insofern 1 vor dem bauern frei ist, testen, ob zwei nach vorne aus grundstellung möglich ist:
+			// Dafür muss Bauer in Grundlinie (für weiß, i = 6 sein)
+			if (brettState[i - 2][j] == '.' && i == 6) {
+				//console.log('Doppelschritt aus Grundlinie möglich ')
+				zuege.push([i - 2, j])
+			} else {
+				//console.log('Doppelschritt für weißen Bauern nicht möglich')
+			}
+		} else {
+			//console.log('direkt vor weißem Bauer steht eine Figur')
+		}
 
-    // testen, ob weiß nach oben-rechts schlagen kann
-    if (['q', 'p', 'r', 'n', 'b'].includes(brettState[i - 1][j + 1])) {
-      console.log(
-        'gegnerische, schlagbare Figur steht oben-rechts von weißem Bauern'
-      )
-      zuege.push([i - 1, j + 1])
-    }
+		// testen, ob weiß nach oben-rechts schlagen kann
+		if (['q', 'p', 'r', 'n', 'b'].includes(brettState[i - 1][j + 1])) {
+			console.log(
+				'gegnerische, schlagbare Figur steht oben-rechts von weißem Bauern'
+			)
+			zuege.push([i - 1, j + 1])
+		}
 
-    // testen, ob weiß nach oben-links schlagen kann
-    if (['q', 'p', 'r', 'n', 'b'].includes(brettState[i - 1][j - 1])) {
-      console.log(
-        'gegnerische, schlagbare Figur steht oben-links von weißem Bauern'
-      )
-      zuege.push([i - 1, j - 1])
-    }
-  }
+		// testen, ob weiß nach oben-links schlagen kann
+		if (['q', 'p', 'r', 'n', 'b'].includes(brettState[i - 1][j - 1])) {
+			console.log(
+				'gegnerische, schlagbare Figur steht oben-links von weißem Bauern'
+			)
+			zuege.push([i - 1, j - 1])
+		}
 
-  // Der Bauer wurde von schwarz gezogen
-  if (!weißAmZug) {
-    if (brettState[i + 1][j] == '.') {
-      //console.log('Feld direkt vor Bauer ist frei')
-      // wird erstmals als i und j koordinate im array in den möglichen zügen gespeichert (ausgangsfeld)
-      zuege.push([i + 1, j])
+		// testen, ob en-passant möglich ist: Wenn bauer neben weißem bauern steht, und der en-passant bauer aus der index.js ist.
 
-      // insofern 1 vor dem bauern frei ist, testen, ob zwei nach vorne aus grundstellung möglich ist:
-      // Dafür muss Bauer in Grundlinie (für weiß, i = 6 sein)
-      if (brettState[i + 2][j] == '.' && i == 1) {
-        //console.log('Doppelschritt aus Grundlinie möglich ')
-        zuege.push([i + 2, j])
-      } else {
-        //console.log('Doppelschritt für weißen Bauern nicht möglich')
-      }
-    } else {
-      //console.log('direkt vor weißem Bauer steht eine Figur')
-    }
+		if (enPassantBauer != null) {
+			// en passant nach rechts:
+			if (
+				['p'].includes(brettState[i][j + 1]) &&
+				enPassantBauer[0] == i &&
+				enPassantBauer[1] == j + 1
+			) {
+				console.log(
+					'Für weiß: En passant schlageng mit ziel',
+					i - 1,
+					j + 1,
+					'möglich'
+				)
+				zuege.push([i - 1, j + 1])
+			}
 
-    // testen, ob schwarz nach unten-rechts schlagen kann
-    if (['Q', 'P', 'R', 'N', 'B'].includes(brettState[i + 1][j + 1])) {
-      console.log(
-        'gegnerische, schlagbare Figur steht unten-rechts von schwarzen Bauern'
-      )
-      zuege.push([i + 1, j + 1])
-    }
+			// en passant nach links
+			if (
+				['p'].includes(brettState[i][j - 1]) &&
+				enPassantBauer[0] == i &&
+				enPassantBauer[1] == j - 1
+			) {
+				console.log(
+					'Für weiß: En passant schlageng mit ziel',
+					i - 1,
+					j - 1,
+					'möglich'
+				)
+				zuege.push([i - 1, j - 1])
+			}
+		}
+	}
 
-    // testen, ob schwarz nach unten-links schlagen kann
-    if (['Q', 'P', 'R', 'N', 'B'].includes(brettState[i + 1][j - 1])) {
-      console.log(
-        'gegnerische, schlagbare Figur steht unten-links von schwarzem Bauern'
-      )
-      zuege.push([i + 1, j - 1])
-    }
-  }
+	// Der Bauer wurde von schwarz gezogen
+	if (!weißAmZug) {
+		if (brettState[i + 1][j] == '.') {
+			//console.log('Feld direkt vor Bauer ist frei')
+			// wird erstmals als i und j koordinate im array in den möglichen zügen gespeichert (ausgangsfeld)
+			zuege.push([i + 1, j])
 
-  return zuege
+			// insofern 1 vor dem bauern frei ist, testen, ob zwei nach vorne aus grundstellung möglich ist:
+			// Dafür muss Bauer in Grundlinie (für weiß, i = 6 sein)
+			if (brettState[i + 2][j] == '.' && i == 1) {
+				//console.log('Doppelschritt aus Grundlinie möglich ')
+				zuege.push([i + 2, j])
+			} else {
+				//console.log('Doppelschritt für weißen Bauern nicht möglich')
+			}
+		} else {
+			//console.log('direkt vor weißem Bauer steht eine Figur')
+		}
+
+		// testen, ob schwarz nach unten-rechts schlagen kann
+		if (['Q', 'P', 'R', 'N', 'B'].includes(brettState[i + 1][j + 1])) {
+			console.log(
+				'gegnerische, schlagbare Figur steht unten-rechts von schwarzen Bauern'
+			)
+			zuege.push([i + 1, j + 1])
+		}
+
+		// testen, ob schwarz nach unten-links schlagen kann
+		if (['Q', 'P', 'R', 'N', 'B'].includes(brettState[i + 1][j - 1])) {
+			console.log(
+				'gegnerische, schlagbare Figur steht unten-links von schwarzem Bauern'
+			)
+			zuege.push([i + 1, j - 1])
+		}
+
+		// testen, ob en passant schlagen möglich ist
+
+		if (enPassantBauer != null) {
+			// en passant nach rechts:
+
+			console.log('Pawn.js en passant schlagbarer bauer ', i, j + 1)
+			if (
+				['P'].includes(brettState[i][j + 1]) &&
+				enPassantBauer[0] == i &&
+				enPassantBauer[1] == j + 1
+			) {
+				zuege.push([i + 1, j + 1])
+				console.log(
+					'Für schwarz: En passant schlagen mit ziel',
+					i + 1,
+					',',
+					j + 1,
+					'möglich'
+				)
+			}
+
+			// en passant nach links
+			if (
+				['P'].includes(brettState[i][j - 1]) &&
+				enPassantBauer[0] == i &&
+				enPassantBauer[1] == j - 1
+			) {
+				zuege.push([i + 1, j - 1])
+				console.log(
+					'Für schwarz: En passant schlagen mit ziel',
+					i + 1,
+					',',
+					j - 1,
+					'möglich'
+				)
+			}
+		}
+	}
+
+	return zuege
 }
 
 export function angegriffeneFelder(ausgangsfeldKoord, brettState, weißAmZug) {
-  // felder hat selbes format wie zuege in der funktion zuvor.
-  // für weiß i - 1, j + 1 und i - 1, j - 1. Alle Felder, die angegriffen werden könnten, zählen - auch wenn eine eigene oder
-  // gegnerische Figur auf diesem feld steht (akuter angriff / deckung einer figur)
-  // Hier müsste theoretisch auch noch
-  const felder = []
+	// felder hat selbes format wie zuege in der funktion zuvor.
+	// für weiß i - 1, j + 1 und i - 1, j - 1. Alle Felder, die angegriffen werden könnten, zählen - auch wenn eine eigene oder
+	// gegnerische Figur auf diesem feld steht (akuter angriff / deckung einer figur)
+	// Hier müsste theoretisch auch noch
+	const felder = []
 
-  if (weißAmZug) {
-  }
-  return felder
+	if (weißAmZug) {
+	}
+	return felder
 }
