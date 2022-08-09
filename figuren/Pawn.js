@@ -16,9 +16,15 @@ bei weiß in höhe 2 und für schwarz in höhe 7 ist, ist der bauer in ausgangsl
  * @param {*} ausgangsfeldKoord Tupel-Array aus i und j Wert der Koordinate, also im brettState
  * @param {*} brettState Aktueller Zustand des Brettes als exakt das "brettState" aus index.js
  * @param {*} weißAmZug wie in index.js. Wichtig, damit nicht die eigenen Figuren geschlagen werden
+ * @param {*} enPassantBauer enthält die Koordinaten eines Bauers, der im nächsten Zug durch en-passant geschlagen werden kann.
  * @returns zuege
  */
-export function moeglicheZuegePawn(ausgangsfeldKoord, brettState, weißAmZug) {
+export function moeglicheZuegePawn(
+  ausgangsfeldKoord,
+  brettState,
+  weißAmZug,
+  enPassantBauer
+) {
   const zuege = []
 
   // testen, ob direkt vor dem bauer eine figur schlägt -> nicht ein feld und auch keine zwei züge möglich

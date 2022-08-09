@@ -92,22 +92,29 @@ function zugMachen(zugNotation) {
       moeglicheZuege = moeglicheZuegePawn(
         [iAusgangsfeld, jAusgangsfeld],
         brettState,
-        weißAmZug
+        weißAmZug,
+        enPassantBauer
       )
 
       //console.log('Legitime Züge für diesen Bauern: ', moeglicheZuege)
       if (isArrayInArray(moeglicheZuege, [iZielfeld, jZielfeld])) {
         console.log('Zug ist legitim')
 
-        console.log('iZielfeld', iZielfeld)
+        // sobald der nächste zug legitim ist, verfällt der en-passant anspruch. Entweder er wurde genutzt durch den legitimen zug, oder er
+        // verfällt wegen ungenutzt.
+        enPassantBauer = null
 
-        if (iZielfeld == 3 && iAusgangsfeld == 1) {
-          console.log('Schwarzer Bauer Doppelschritt!')
-        }
+        console.log('iZielfeld', iZielfeld)
 
         // hier einfach über den i-wert checken, ob bauer zwei aus grundstellung (also nun auf höhe 4 und vorher in 6 -> zwei schritte)
         if (weißAmZug && iZielfeld == 4 && iAusgangsfeld == 6) {
           console.log('Weißer Bauer Doppelschritt!')
+          enPassantBauer = [iZielfeld, jZielfeld]
+        }
+
+        if (!weißAmZug && iZielfeld == 3 && iAusgangsfeld == 1) {
+          console.log('Schwarzer Bauer Doppelschritt!')
+          enPassantBauer = [iZielfeld, jZielfeld]
         }
       } else {
         //console.log('Bauern Zug NICHT legitim')
@@ -186,7 +193,10 @@ zugMachen('g1-f3')
 */
 
 zugMachen('e2-e4')
-zugMachen('e7-e5')
-zugMachen('d2-d3')
 zugMachen('c7-c5')
+zugMachen('e4-e5')
+zugMachen('d7-d5')
+zugMachen('e5-d6')
+
 brettAusgeben()
+console.log('en-passant-schlagbarer bauer:', enPassantBauer)
