@@ -34,3 +34,10 @@ zugMachen('c7-c5')
 zugMachen('e4-e5')
 zugMachen('d7-d5')
 zugMachen('e5-d6')
+
+// anderer enpassant test für weiß:
+zugMachen('e2-e4')
+zugMachen('c7-c5')
+zugMachen('e4-e5')
+zugMachen('d7-d5')
+zugMachen('e5-d6')

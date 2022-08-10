@@ -71,7 +71,7 @@ export function moeglicheZuegePawn(
 
 		// testen, ob en-passant möglich ist: Wenn bauer neben weißem bauern steht, und der en-passant bauer aus der index.js ist.
 
-		if (enPassantBauer != null) {
+		if (enPassantBauer !== null) {
 			// en passant nach rechts:
 			if (
 				['p'].includes(brettState[i][j + 1]) &&
@@ -141,7 +141,7 @@ export function moeglicheZuegePawn(
 
 		// testen, ob en passant schlagen möglich ist
 
-		if (enPassantBauer != null) {
+		if (enPassantBauer !== null) {
 			// en passant nach rechts:
 
 			console.log('Pawn.js en passant schlagbarer bauer ', i, j + 1)
@@ -181,6 +181,9 @@ export function moeglicheZuegePawn(
 	return zuege
 }
 
+// Alle Figuren bis auf die Bauern greifen auch die Felder an, auf die sie ziehen können - die Bauern
+// greifen nur oben links und rechts von sich an.
+// @brettState bisher redundant, da alle felder, nicht nur unbesetzte gezählt werdenb
 export function angegriffeneFelder(ausgangsfeldKoord, brettState, weißAmZug) {
 	// felder hat selbes format wie zuege in der funktion zuvor.
 	// für weiß i - 1, j + 1 und i - 1, j - 1. Alle Felder, die angegriffen werden könnten, zählen - auch wenn eine eigene oder
@@ -188,7 +191,19 @@ export function angegriffeneFelder(ausgangsfeldKoord, brettState, weißAmZug) {
 	// Hier müsste theoretisch auch noch
 	const felder = []
 
+	const i = ausgangsfeldKoord[0]
+	const j = ausgangsfeldKoord[1]
+
+	// kann man noch zusammenfassen.
 	if (weißAmZug) {
+		felder.push([i - 1, j - 1])
+		felder.push([i - 1, j + 1])
 	}
+
+	if (!weißAmZug) {
+		felder.push([i + 1, j - 1])
+		felder.push([i + 1, j + 1])
+	}
+
 	return felder
 }

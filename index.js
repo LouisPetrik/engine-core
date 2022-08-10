@@ -100,6 +100,42 @@ function zugMachen(zugNotation) {
 			if (isArrayInArray(moeglicheZuege, [iZielfeld, jZielfeld])) {
 				console.log('Zug ist legitim')
 
+				// insofern der gezogene bauer genau ein feld hinter (j gleich, i + 1 für schwarz, i - 1 für weiß) dem en-passant schlagbaren bauern steht und sich
+				// diagonal auf ihn zubewegt hat, muss es sich um en-passant schlagen handeln - der geschlagene bauer wird entfernt.
+
+				if (enPassantBauer !== null) {
+					if (weißAmZug) {
+						if (
+							iZielfeld === enPassantBauer[0] - 1 &&
+							jZielfeld === enPassantBauer[1]
+						) {
+							console.log(
+								'Wei hat Bauer auf',
+								enPassantBauer[0],
+								enPassantBauer[1],
+								'en passant genommen'
+							)
+							brettState[enPassantBauer[0]][enPassantBauer[1]] = '.'
+						}
+					}
+
+					if (!weißAmZug) {
+						if (
+							iZielfeld === enPassantBauer[0] + 1 &&
+							jZielfeld === enPassantBauer[1]
+						) {
+							console.log(
+								'Schwarz hat Bauern auf',
+								enPassantBauer[0],
+								enPassantBauer[1],
+								'en passant genommen'
+							)
+
+							// entfernen des en-passant-geschlagenen bauerns:
+							brettState[enPassantBauer[0]][enPassantBauer[1]] = '.'
+						}
+					}
+				}
 				// sobald der nächste zug legitim ist, verfällt der en-passant anspruch. Entweder er wurde genutzt durch den legitimen zug, oder er
 				// verfällt wegen ungenutzt.
 				enPassantBauer = null
@@ -192,12 +228,11 @@ zugMachen('e7-e5')
 zugMachen('g1-f3')
 */
 
-zugMachen('f2-f3')
-zugMachen('d7-d5')
-zugMachen('f3-f4')
-zugMachen('d5-d4')
 zugMachen('e2-e4')
-zugMachen('d4-d3')
+zugMachen('c7-c5')
+zugMachen('e4-e5')
+zugMachen('d7-d5')
+zugMachen('e5-d6')
 
 brettAusgeben()
 console.log('en-passant-schlagbarer bauer:', enPassantBauer)
