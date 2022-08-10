@@ -4,6 +4,7 @@ import {
   moeglicheZuegeKnight,
   angegriffeneFelderKnight,
 } from './figuren/Knight'
+import { angegriffeneFelderRook } from './figuren/Rook'
 
 // Aus der Sicht von Weiß
 // bekommt noch eine Funktion, die ermittelt welches Feld +1 links, rechts, oben, unten liegt
@@ -83,6 +84,30 @@ export function angriffeFinden(brettState) {
       if (figur === 'n') {
         for (let x = 0; x < angegriffeneFelderKnight(figurPos).length; x++) {
           angegriffeneFelderSchwarz.push(angegriffeneFelderKnight(figurPos)[x])
+        }
+      }
+
+      if (figur === 'R') {
+        for (
+          let x = 0;
+          x < angegriffeneFelderRook(figurPos, brettState).length;
+          x++
+        ) {
+          angegriffeneFelderWeiß.push(
+            angegriffeneFelderRook(figurPos, brettState)[x]
+          )
+        }
+      }
+
+      if (figur === 'r') {
+        for (
+          let x = 0;
+          x < angegriffeneFelderRook(figurPos, brettState).length;
+          x++
+        ) {
+          angegriffeneFelderSchwarz.push(
+            angegriffeneFelderRook(figurPos, brettState)[x]
+          )
         }
       }
     }
