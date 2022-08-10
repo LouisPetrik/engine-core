@@ -184,7 +184,7 @@ export function moeglicheZuegePawn(
 // Alle Figuren bis auf die Bauern greifen auch die Felder an, auf die sie ziehen können - die Bauern
 // greifen nur oben links und rechts von sich an.
 // @brettState bisher redundant, da alle felder, nicht nur unbesetzte gezählt werdenb
-export function angegriffeneFelder(ausgangsfeldKoord, brettState, weißAmZug) {
+export function angegriffeneFelderPawn(ausgangsfeldKoord, farbe) {
 	// felder hat selbes format wie zuege in der funktion zuvor.
 	// für weiß i - 1, j + 1 und i - 1, j - 1. Alle Felder, die angegriffen werden könnten, zählen - auch wenn eine eigene oder
 	// gegnerische Figur auf diesem feld steht (akuter angriff / deckung einer figur)
@@ -195,14 +195,24 @@ export function angegriffeneFelder(ausgangsfeldKoord, brettState, weißAmZug) {
 	const j = ausgangsfeldKoord[1]
 
 	// kann man noch zusammenfassen.
-	if (weißAmZug) {
-		felder.push([i - 1, j - 1])
-		felder.push([i - 1, j + 1])
+	if (farbe === 'weiß') {
+		if (i - 1 >= 0 && j - 1 >= 0) {
+			felder.push([i - 1, j - 1])
+		}
+
+		if (i - 1 >= 0 && j + 1 <= 7) {
+			felder.push([i - 1, j + 1])
+		}
 	}
 
-	if (!weißAmZug) {
-		felder.push([i + 1, j - 1])
-		felder.push([i + 1, j + 1])
+	if (farbe === 'schwarz') {
+		if (i + 1 <= 7 && j - 1 >= 0) {
+			felder.push([i + 1, j - 1])
+		}
+
+		if (i + 1 <= 7 && j + 1 <= 7) {
+			felder.push([i + 1, j + 1])
+		}
 	}
 
 	return felder

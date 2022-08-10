@@ -1,4 +1,6 @@
 // Sammlung von Funktionen und Konstanten
+import { angegriffeneFelderPawn } from './figuren/Pawn'
+import { moeglicheZuegeKnight } from './figuren/Knight'
 
 // Aus der Sicht von Weiß
 // bekommt noch eine Funktion, die ermittelt welches Feld +1 links, rechts, oben, unten liegt
@@ -29,6 +31,49 @@ export function feldbezeichnungZuKoord(feld) {
 	const j = koordinaten[i].indexOf(feld)
 
 	return [i, j]
+}
+
+/**
+ * Gibt alle Felder zurück, die durch alle Figuren einer Farbe angegriffen werden.
+ * Könnte man noch komprimieren indem man für alle figuren checkt und insofern weiß,
+ * @param {*} brettState Aktueller Zustand nach einem gültigen zug
+ */
+export function angriffeFinden(brettState) {
+	const angegriffeneFelderWeiß = []
+	const angegriffeneFelderSchwarz = []
+	for (let i = 0; i <= 7; i++) {
+		for (let j = 0; j <= 7; j++) {
+			let figur = brettState[i][j]
+			let figurPos = [i, j]
+
+			if (figur === 'P') {
+				// da angegriffeneFelderPawn ein zweidimensionales array zurückgibt, wird jedes koordinaten-tupel
+				// als element rausgeholt. Muss optimiert werden.
+				for (
+					let x = 0;
+					x < angegriffeneFelderPawn(figurPos, 'weiß').length;
+					x++
+				) {
+					angegriffeneFelderWeiß.push(
+						angegriffeneFelderPawn(figurPos, 'weiß')[x]
+					)
+				}
+			}
+			if (figur === 'p') {
+				for (
+					let x = 0;
+					x < angegriffeneFelderPawn(figurPos, 'schwarz').length;
+					x++
+				) {
+					angegriffeneFelderSchwarz.push(
+						angegriffeneFelderPawn(figurPos, 'schwarz')[x]
+					)
+				}
+			}
+		}
+	}
+
+	return [angegriffeneFelderWeiß, angegriffeneFelderSchwarz]
 }
 
 // BISHER REDUNDANT

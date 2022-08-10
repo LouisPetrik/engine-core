@@ -1,8 +1,12 @@
 // Datei verwein
 
-import { moeglicheZuegePawn } from './figuren/Pawn'
+import { moeglicheZuegePawn, angegriffeneFelderPawn } from './figuren/Pawn'
 import { moeglicheZuegeKnight } from './figuren/Knight'
-import { feldbezeichnungZuKoord, isArrayInArray } from './Util.js'
+import {
+	feldbezeichnungZuKoord,
+	isArrayInArray,
+	angriffeFinden,
+} from './Util.js'
 
 // Relevante werte für die partie: (muss final in eine klasse), aber bisher nur zum testen hier drinne
 let weißAmZug = true
@@ -35,6 +39,30 @@ let brettState = [
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
 	['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
+]
+
+// Hier werden einzelne, angegriffene felder mit "a" markiert, für beide farben jeweils.
+// Immer nach einem legitimen zug wird aktualisiert, und somit auch erkannt, ob der könig im schach steht
+let angriffeWeiß = [
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+]
+
+let angriffeSchwarz = [
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
 ]
 
 function brettAusgeben() {
@@ -207,6 +235,29 @@ function zugMachen(zugNotation) {
 	brettState[iAusgangsfeld][jAusgangsfeld] = '.'
 	brettState[iZielfeld][jZielfeld] = figurZeichen
 
+	// alle, durch beide farben angegriffenen felder: [0] für weiß, [1] für schwarz.
+	let angegriffeneFelder = angriffeFinden(brettState)
+	/*
+	console.log('angriffe durch weiß:', angegriffeneFelder[0])
+	console.log('angriffe durch schwarz:', angegriffeneFelder[1])
+    */
+
+	// i und j sind reserviert für bezeichnung des koord-abschnitt
+	// alle angriffe von weiß einzeichnen:
+	for (let x = 0; x < angegriffeneFelder[0].length; x++) {
+		let i = angegriffeneFelder[0][x][0]
+		let j = angegriffeneFelder[0][x][1]
+
+		angriffeWeiß[i][j] = 'A'
+	}
+	// alle angriffe von schwarz einzeichnen
+	for (let x = 0; x < angegriffeneFelder[1].length; x++) {
+		let i = angegriffeneFelder[1][x][0]
+		let j = angegriffeneFelder[1][x][1]
+
+		angriffeSchwarz[i][j] = 'A'
+	}
+
 	// nun ist wieder die andere Farbe am Zug
 	weißAmZug = !weißAmZug
 
@@ -222,17 +273,17 @@ spielen()
 /* LOGIK FÜR SPIELABLAUF 
 Weiß am Zug ,Schwarz etc. durch Überprüfung */
 // Hier nach gibt es drei legitime Züge für Springer
-/*
-zugMachen('e2-e4')
-zugMachen('e7-e5')
-zugMachen('g1-f3')
-*/
 
 zugMachen('e2-e4')
-zugMachen('c7-c5')
-zugMachen('e4-e5')
-zugMachen('d7-d5')
-zugMachen('e5-d6')
+
+console.log('Angriffe von weiß:')
+for (let i = 0; i < angriffeWeiß.length; i++) {
+	console.log(angriffeWeiß[i].join(' '))
+}
+
+console.log('Angriffe von schwarz:')
+for (let i = 0; i < angriffeSchwarz.length; i++) {
+	console.log(angriffeSchwarz[i].join(' '))
+}
 
 brettAusgeben()
-console.log('en-passant-schlagbarer bauer:', enPassantBauer)
