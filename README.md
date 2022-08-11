@@ -2,7 +2,17 @@
 
 JavaScript draft für die Schach-Engine, wird später in C++ übersetzt.
 
-Zum ausführen: npm start
+Zum ausführen:
+
+```bash
+npm start
+```
+
+Anzahl der lines of code:
+
+```bash
+git ls-files | grep '\.js' | xargs wc -l
+```
 
 Übersicht der Klassen / Pakete:
 

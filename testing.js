@@ -8,3 +8,29 @@
   ['P', 'P', 'P', 'P', '.', 'P', 'P', 'P'],
   ['R', 'N', 'B', 'Q', 'K', '.', '.', 'R'],
 ]
+
+
+// angriffe weiß im turm endspiel: 
+---------------
+. . A A . . . .
+. . A A . . . .
+. . A A . . . .
+. . A A . . . .
+. . A A . . . .
+A A A . A A A A
+A A . A . . . .
+. . A . . . . .
+---------------
+
+// angriffe von schwarz im turm endspiel: 
+
+---------------
+A A A A A A A A
+A A A A A A A A
+. A . . . . . .
+. A . . . . . .
+. A . . . . . .
+. A . . . . . .
+. A . . . . . .
+. A . . . . . .
+---------------
