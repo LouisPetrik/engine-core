@@ -39,7 +39,7 @@ let brettState = [
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', 'R', '.', '.', '.', '.'],
 	['.', '.', 'R', 'K', '.', '.', '.', '.'],
-	['.', '', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
 ]
 
 // Hier werden einzelne, angegriffene felder mit "a" markiert, für beide farben jeweils.

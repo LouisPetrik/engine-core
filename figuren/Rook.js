@@ -1,4 +1,7 @@
 // Zum testen, ob ein Feld noch auf dem Brett ist.
+
+import { linieFelder } from '../helpers/linie'
+
 // Ist die selbe funktion wie in der Knight datei, daher muss noch zusammengefasst werden.
 function feldAufBrett(iVariation, jVariation) {
 	if (
@@ -17,16 +20,22 @@ function feldAufBrett(iVariation, jVariation) {
  * Gibt all die Felder aus, die der Rook bedroht. Linien in 4 Richtungen, bis zu einer eigenen
  * oder gegnerischen Figur (aber inklusive dieses Feld (Drohung / Deckung))
  * @param {*} ausgangsfeldKoord
+ * @param brettState
+ * @param weißAmZug
  * @return zweidimensionales Array, also liste von tupeln.
  */
-export function angegriffeneFelderRook(ausgangsfeldKoord, brettState) {
+export function angegriffeneFelderRook(
+	ausgangsfeldKoord,
+	brettState,
+	weißAmZug
+) {
 	const felder = []
 
 	const i = ausgangsfeldKoord[0]
 	const j = ausgangsfeldKoord[1]
 
 	// von weiß aus nach oben:
-
+	/*
 	for (let iTemp = i - 1; iTemp >= 0; iTemp--) {
 		// eine Figur steht dort. Dann wird dieses Feld noch aufgenommen in die gedeckten / angegriffenen Felder
 		// alles danach in der linie (weiter nach oben) entfällt aber
@@ -73,6 +82,36 @@ export function angegriffeneFelderRook(ausgangsfeldKoord, brettState) {
 			break
 		}
 	}
+    */ felder.push(
+		...linieFelder(
+			brettState,
+			ausgangsfeldKoord,
+			'oben',
+			'angriff',
+			weißAmZug
+		),
+		...linieFelder(
+			brettState,
+			ausgangsfeldKoord,
+			'unten',
+			'angriff',
+			weißAmZug
+		),
+		...linieFelder(
+			brettState,
+			ausgangsfeldKoord,
+			'links',
+			'angriff',
+			weißAmZug
+		),
+		...linieFelder(
+			brettState,
+			ausgangsfeldKoord,
+			'rechts',
+			'angriff',
+			weißAmZug
+		)
+	)
 
 	return felder
 }

@@ -14,6 +14,7 @@ export function linieFelder(
 	modus,
 	weißAmZug
 ) {
+	// rook auf 6, 2
 	const felderAufLinie = []
 
 	const i = ausgangsfeldKoord[0]
@@ -25,8 +26,7 @@ export function linieFelder(
 
 	for (let x = 1; x <= 7; x++) {
 		if (!geblockt) {
-			// schwarzer bishop oben rechts: 0, 7. Diagonale unten links
-			// anderes beispiel: schwarzer bishop 2, 0
+			// rook auf 0, 1 macht noch probleme.
 			let iTemp = i
 			let jTemp = j
 
@@ -45,6 +45,16 @@ export function linieFelder(
 
 			if (richtung === 'rechts' && j + x <= 7) {
 				jTemp = j + x
+			}
+
+			// der standpunkt der figur selbst zählt nicht als angegriffen durch sich selbst:
+			// Genausowenig kann eine figur als legitimen zug auf das feld ziehen, auf dem sie bereits steht
+			// -> wenn das eigene feld durchgegangen wird (else-case) wird der rest der schleife geskipped
+			// hier ist wichtig, dass es ein logisches ODER ist, da sich bei bewegungen über linien i oder j nicht verändern.
+			if (iTemp != i || jTemp != j) {
+				felderAufLinie.push([iTemp, jTemp])
+			} else {
+				break
 			}
 
 			if (modus === 'angriff') {
@@ -90,15 +100,11 @@ export function linieFelder(
 				}
 			}
 
-			// der standpunkt der figur selbst zählt nicht als angegriffen durch sich selbst:
-			if (iTemp != i && jTemp != j) {
-				felderAufLinie.push([iTemp, jTemp])
-			}
-
 			// kann vielleicht noch hinsichtlich der anzahl der durchläufe optimiert werden.
+			/*
 			if (iTemp === 0 || iTemp === 7 || jTemp === 0 || jTemp === 7) {
 				break
-			}
+			}*/
 		}
 	}
 

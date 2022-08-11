@@ -103,11 +103,12 @@ export function angriffeFinden(brettState, weißAmZug) {
 			if (figur === 'R') {
 				for (
 					let x = 0;
-					x < angegriffeneFelderRook(figurPos, brettState).length;
+					x <
+					angegriffeneFelderRook(figurPos, brettState, weißAmZug).length;
 					x++
 				) {
 					angegriffeneFelderWeiß.push(
-						angegriffeneFelderRook(figurPos, brettState)[x]
+						angegriffeneFelderRook(figurPos, brettState, weißAmZug)[x]
 					)
 				}
 			}
@@ -115,11 +116,12 @@ export function angriffeFinden(brettState, weißAmZug) {
 			if (figur === 'r') {
 				for (
 					let x = 0;
-					x < angegriffeneFelderRook(figurPos, brettState).length;
+					x <
+					angegriffeneFelderRook(figurPos, brettState, weißAmZug).length;
 					x++
 				) {
 					angegriffeneFelderSchwarz.push(
-						angegriffeneFelderRook(figurPos, brettState)[x]
+						angegriffeneFelderRook(figurPos, brettState, weißAmZug)[x]
 					)
 				}
 			}
