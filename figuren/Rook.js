@@ -17,6 +17,7 @@ function feldAufBrett(iVariation, jVariation) {
  * Gibt all die Felder aus, die der Rook bedroht. Linien in 4 Richtungen, bis zu einer eigenen
  * oder gegnerischen Figur (aber inklusive dieses Feld (Drohung / Deckung))
  * @param {*} ausgangsfeldKoord
+ * @return zweidimensionales Array, also liste von tupeln.
  */
 export function angegriffeneFelderRook(ausgangsfeldKoord, brettState) {
 	const felder = []

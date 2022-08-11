@@ -32,13 +32,13 @@ let halbzugNummer = 1
 // wenn Uppercase Buchstabe, dann weiße Figur - wird sammt State, Koordinate und Figur an
 // die entsprechende Methode in der Klasse der Figur übergeben
 let brettState = [
-	['k', '.', '.', '.', '.', '.', '.', '.'],
-	['.', 'r', '.', '.', '.', '.', '.', '.'],
-	['.', 'r', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', 'R', '.', '.', '.', '.'],
-	['.', '.', 'R', 'K', '.', '.', '.', '.'],
+	['b', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', 'B', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 ]
 
@@ -234,6 +234,7 @@ function zugMachen(zugNotation) {
 		case 'B':
 		case 'b':
 			console.log('Läufer wurde bewegt')
+
 			break
 
 		case 'R':
@@ -266,10 +267,6 @@ function zugMachen(zugNotation) {
 
 	// alle, durch beide farben angegriffenen felder: [0] für weiß, [1] für schwarz.
 	let angegriffeneFelder = angriffeFinden(brettState)
-	/*
-	console.log('angriffe durch weiß:', angegriffeneFelder[0])
-	console.log('angriffe durch schwarz:', angegriffeneFelder[1])
-    */
 
 	// i und j sind reserviert für bezeichnung des koord-abschnitt
 	// alle angriffe von weiß einzeichnen:
@@ -312,7 +309,7 @@ spielen()
 Weiß am Zug ,Schwarz etc. durch Überprüfung */
 // Hier nach gibt es drei legitime Züge für Springer
 
-zugMachen('d3-d4')
+zugMachen('h2-h4')
 
 console.log('Angriffe von weiß:')
 console.log('---------------')
