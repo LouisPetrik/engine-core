@@ -195,6 +195,7 @@ export function angegriffeneFelderPawn(ausgangsfeldKoord, farbe) {
 	const j = ausgangsfeldKoord[1]
 
 	// kann man noch zusammenfassen.
+
 	if (farbe === 'weiß') {
 		if (i - 1 >= 0 && j - 1 >= 0) {
 			felder.push([i - 1, j - 1])

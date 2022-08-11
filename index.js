@@ -34,7 +34,7 @@ let halbzugNummer = 1
 let brettState = [
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['b', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
@@ -266,7 +266,7 @@ function zugMachen(zugNotation) {
 	brettState[iZielfeld][jZielfeld] = figurZeichen
 
 	// alle, durch beide farben angegriffenen felder: [0] für weiß, [1] für schwarz.
-	let angegriffeneFelder = angriffeFinden(brettState)
+	let angegriffeneFelder = angriffeFinden(brettState, weißAmZug)
 
 	// i und j sind reserviert für bezeichnung des koord-abschnitt
 	// alle angriffe von weiß einzeichnen:

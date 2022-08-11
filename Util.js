@@ -43,7 +43,7 @@ export function feldbezeichnungZuKoord(feld) {
  * Könnte man noch komprimieren indem man für alle figuren checkt und insofern weiß,
  * @param {*} brettState Aktueller Zustand nach einem gültigen zug
  */
-export function angriffeFinden(brettState) {
+export function angriffeFinden(brettState, weißAmZug) {
 	const angegriffeneFelderWeiß = []
 	const angegriffeneFelderSchwarz = []
 	for (let i = 0; i <= 7; i++) {
@@ -127,11 +127,12 @@ export function angriffeFinden(brettState) {
 			if (figur === 'B') {
 				for (
 					let x = 0;
-					x < angegriffeneFelderBishop(figurPos, brettState).length;
+					x <
+					angegriffeneFelderBishop(figurPos, brettState, weißAmZug).length;
 					x++
 				) {
 					angegriffeneFelderWeiß.push(
-						angegriffeneFelderBishop(figurPos, brettState)[x]
+						angegriffeneFelderBishop(figurPos, brettState, weißAmZug)[x]
 					)
 				}
 			}
