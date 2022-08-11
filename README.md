@@ -17,5 +17,6 @@ Todos:
    Fragestellungen:
 -  Jede Figur muss wohl eine funktion bekommen, die angegriffene Felder ausgibt. Zb der knight kann nicht auf besetze felder springen, deckt diese ja aber. Der schachcomputer muss wissen können, dass z. B. schlagen eines bauerns durch den könig um schach zu entkommen nicht möglich ist, wenn dieser bauer durch ein pferd gedeckt / angegriffen wird.
 -  Definitionsfrage: Greifen figuren die felder an, auf denen sie selbst stehen? (Gilt nur für B, R, K, Q)
+   Vermutlich nicht, da die engine sonst nicht weiß, ob sie eine figur nehmen kann, die ungedeckt ist.
 
 -  Ein Meta-objekt in der index.js die on-top alle metainformationen wie anzahl der züge speichert, damit das an alle figur-funktionen übergeben werden kann?

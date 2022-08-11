@@ -2,6 +2,7 @@
 
 import { moeglicheZuegePawn, angegriffeneFelderPawn } from './figuren/Pawn'
 import { moeglicheZuegeKnight } from './figuren/Knight'
+import { moeglicheZuegeRook } from './figuren/Rook'
 import {
 	feldbezeichnungZuKoord,
 	isArrayInArray,
@@ -31,9 +32,9 @@ let halbzugNummer = 1
 // wenn Uppercase Buchstabe, dann weiße Figur - wird sammt State, Koordinate und Figur an
 // die entsprechende Methode in der Klasse der Figur übergeben
 let brettState = [
-	['k', 'r', '.', '.', '.', '.', '.', '.'],
+	['k', '.', '.', '.', '.', '.', '.', '.'],
 	['.', 'r', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', 'r', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', 'R', '.', '.', '.', '.'],
@@ -65,6 +66,16 @@ let angriffeSchwarz = [
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 ]
 
+let moeglicheZuegeRookMap = [
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+]
 function brettAusgeben() {
 	console.log('---------------')
 	for (let i = 0; i < brettState.length; i++) {
@@ -228,6 +239,24 @@ function zugMachen(zugNotation) {
 		case 'R':
 		case 'r':
 			console.log('Turm wurde bewegt')
+			moeglicheZuege = moeglicheZuegeRook(
+				[iAusgangsfeld, jAusgangsfeld],
+				brettState,
+				weißAmZug
+			)
+
+			for (let x = 0; x < moeglicheZuege.length; x++) {
+				let i = moeglicheZuege[x][0]
+				let j = moeglicheZuege[x][1]
+
+				moeglicheZuegeRookMap[i][j] = 'X'
+			}
+
+			console.log('Mögliche Züge des bewegten Rooks: ')
+			for (let i = 0; i < moeglicheZuegeRookMap.length; i++) {
+				console.log(moeglicheZuegeRookMap[i].join(' '))
+			}
+
 			break
 	}
 
@@ -283,9 +312,7 @@ spielen()
 Weiß am Zug ,Schwarz etc. durch Überprüfung */
 // Hier nach gibt es drei legitime Züge für Springer
 
-zugMachen('a2-a4')
-zugMachen('h7-h5')
-zugMachen('e2-e4')
+zugMachen('d3-d4')
 
 console.log('Angriffe von weiß:')
 console.log('---------------')
