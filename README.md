@@ -14,6 +14,11 @@ Anzahl der lines of code:
 git ls-files | grep '\.js' | xargs wc -l
 ```
 
+## Wichtig fürs verständnis:
+
+-  Angriffe werden ausgeben nachdem ein Zug gemacht wurde, enthalten also die aktualisierte position einer figur
+-  Mögliche Züge werden ausgeben, bevor der Zug getan wurde. Bisher werden züge einfach ohne greifende überprüfung ausgeführt
+
 ## Übersicht der Klassen / Pakete:
 
 -  In "figuren" soll für jede Figur eine Funktion kommen, die mögliche, legitime Züge berechnet. Einen state für jede einzelne figur, also z. B. die beiden Pferde ist nicht nötig, glaube ich.
@@ -26,6 +31,7 @@ git ls-files | grep '\.js' | xargs wc -l
 -  Gesamten State auslagern in eine eigene Datei, also brettState, angriffeWeiß etc.
 -  Pushen der verschiedenen Züge in
 -  Was ist, wenn eine Figur ein Feld eigentlich deckt, aber dadurch dass sie gepinnt ist, kann sie effektiv dieses feld nicht decken? Es müsste einen test geben, ob jeder entsprechende zug dazu führt, dass der eigene könig im schach steht.
+-  Abfangen der Möglichkeit, dass eine Figur gezogen werden soll, die nicht existiert.
 
 ## Fragestellungen:
 

@@ -68,6 +68,16 @@ let angriffeSchwarz = [
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 ]
 
+function angriffeZuruecksetzen() {
+	for (let i = 0; i < angriffeSchwarz.length; i++) {
+		angriffeSchwarz[i].fill('.')
+	}
+
+	for (let i = 0; i < angriffeWeiß.length; i++) {
+		angriffeWeiß[i].fill('.')
+	}
+}
+
 function brettAusgeben() {
 	console.log('---------------')
 	for (let i = 0; i < brettState.length; i++) {
@@ -114,6 +124,8 @@ function zugMachen(zugNotation) {
 		console.log('Weiß ist am Zug')
 	}
 
+	// sollte vielleicht erst später inkrementiert werden, da hier zuerst abgefangen werden muss, wenn
+	// feld ohne figur bewegt wird.
 	halbzugNummer++
 
 	// zugNotation slicen, damit aufgeteilt wird. Kann static gemacht werden,
@@ -290,6 +302,9 @@ function zugMachen(zugNotation) {
 	// alle, durch beide farben angegriffenen felder: [0] für weiß, [1] für schwarz.
 	let angegriffeneFelder = angriffeFinden(brettState, weißAmZug)
 
+	// erstmal das array sicherhaltshalber zurücksetzen
+	angriffeZuruecksetzen()
+
 	// i und j sind reserviert für bezeichnung des koord-abschnitt
 	// alle angriffe von weiß einzeichnen:
 	for (let x = 0; x < angegriffeneFelder[0].length; x++) {
@@ -299,6 +314,7 @@ function zugMachen(zugNotation) {
 		angriffeWeiß[i][j] = 'A'
 	}
 	// alle angriffe von schwarz einzeichnen
+
 	for (let x = 0; x < angegriffeneFelder[1].length; x++) {
 		let i = angegriffeneFelder[1][x][0]
 		let j = angegriffeneFelder[1][x][1]
