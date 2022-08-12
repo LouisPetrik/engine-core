@@ -36,16 +36,17 @@ let halbzugNummer = 1
 let brettState = [
   ['.', '.', '.', '.', '.', '.', '.', '.'],
   ['.', '.', '.', '.', '.', '.', '.', '.'],
-  ['.', '.', '.', '.', 'r', '.', '.', '.'],
   ['.', '.', '.', '.', '.', '.', '.', '.'],
   ['.', '.', '.', '.', '.', '.', '.', '.'],
-  ['.', '.', '.', '.', 'B', '.', '.', '.'],
+  ['.', '.', '.', '.', '.', 'R', '.', '.'],
+  ['.', '.', '.', '.', 'b', '.', '.', '.'],
   ['.', '.', '.', '.', '.', '.', '.', '.'],
-  ['.', '.', '.', '.', 'K', '.', '.', '.'],
+  ['.', '.', '.', '.', 'k', '.', '.', '.'],
 ]
 
 // Hier werden einzelne, angegriffene felder mit "a" markiert, für beide farben jeweils.
 // Immer nach einem legitimen zug wird aktualisiert, und somit auch erkannt, ob der könig im schach steht
+// Dieser Felder können noch kompakter mit array.fill() generiert werden.
 let angriffeWeiß = [
   ['.', '.', '.', '.', '.', '.', '.', '.'],
   ['.', '.', '.', '.', '.', '.', '.', '.'],
@@ -68,6 +69,27 @@ let angriffeSchwarz = [
   ['.', '.', '.', '.', '.', '.', '.', '.'],
 ]
 
+let moeglicheAngriffeSchwarz = [
+  ['.', '.', '.', '.', '.', '.', '.', '.'],
+  ['.', '.', '.', '.', '.', '.', '.', '.'],
+  ['.', '.', '.', '.', '.', '.', '.', '.'],
+  ['.', '.', '.', '.', '.', '.', '.', '.'],
+  ['.', '.', '.', '.', '.', '.', '.', '.'],
+  ['.', '.', '.', '.', '.', '.', '.', '.'],
+  ['.', '.', '.', '.', '.', '.', '.', '.'],
+  ['.', '.', '.', '.', '.', '.', '.', '.'],
+]
+
+let moeglicheAngriffeWeiß = [
+  ['.', '.', '.', '.', '.', '.', '.', '.'],
+  ['.', '.', '.', '.', '.', '.', '.', '.'],
+  ['.', '.', '.', '.', '.', '.', '.', '.'],
+  ['.', '.', '.', '.', '.', '.', '.', '.'],
+  ['.', '.', '.', '.', '.', '.', '.', '.'],
+  ['.', '.', '.', '.', '.', '.', '.', '.'],
+  ['.', '.', '.', '.', '.', '.', '.', '.'],
+  ['.', '.', '.', '.', '.', '.', '.', '.'],
+]
 function angriffeZuruecksetzen() {
   for (let i = 0; i < angriffeSchwarz.length; i++) {
     angriffeSchwarz[i].fill('.')
@@ -75,6 +97,16 @@ function angriffeZuruecksetzen() {
 
   for (let i = 0; i < angriffeWeiß.length; i++) {
     angriffeWeiß[i].fill('.')
+  }
+}
+
+function moeglicheAngriffeZuruecksetzen() {
+  for (let i = 0; i < moeglicheAngriffeSchwarz.length; i++) {
+    moeglicheAngriffeSchwarz[i].fill('.')
+  }
+
+  for (let i = 0; i < moeglicheAngriffeWeiß.length; i++) {
+    moeglicheAngriffeWeiß[i].fill('.')
   }
 }
 
@@ -295,6 +327,56 @@ function zugMachen(zugNotation) {
       break
   }
 
+  // hier wird final überprüft, ob dieser Zug nicht den eigenen König in Schach setzen würde -
+  // also wenn man versucht einer Fessellung zu entkommen, was aber nicht legitim ist.
+  // dafür wird eine veränderte kopie des brettStates übergeben, auf dem der Zug schon ausgeführt ist:
+  let testBrettState = brettState
+  testBrettState[iAusgangsfeld][jAusgangsfeld] = '.'
+  testBrettState[iZielfeld][jZielfeld] = figurZeichen
+
+  // erstmal das array der möglichen angriffe zurücksetzen, damit alles frisch ist:
+  moeglicheAngriffeZuruecksetzen()
+
+  // dann werden die möglichen Angriffe generiert, basierend auf der brettState-Kopie die den
+  // eventuell illegitimen zug enthält
+  let moeglicheAngegriffeneFelder = angriffeFinden(testBrettState, weißAmZug)
+
+  // alle angriffe von weiß einzeichen.
+  for (let x = 0; x < moeglicheAngegriffeneFelder[0].length; x++) {
+    let i = moeglicheAngegriffeneFelder[0][x][0]
+    let j = moeglicheAngegriffeneFelder[0][x][1]
+
+    moeglicheAngriffeWeiß[i][j] = 'A'
+  }
+  // alle angriffe von schwarz einzeichnen
+
+  for (let x = 0; x < moeglicheAngegriffeneFelder[1].length; x++) {
+    let i = moeglicheAngegriffeneFelder[1][x][0]
+    let j = moeglicheAngegriffeneFelder[1][x][1]
+
+    moeglicheAngriffeSchwarz[i][j] = 'A'
+  }
+
+  if (
+    weißAmZug &&
+    moeglicheAngriffeSchwarz[posWeißerKing[0]][posWeißerKing[1]] === 'A'
+  ) {
+    console.log(
+      figurZeichen,
+      'auf',
+      iZielfeld,
+      jZielfeld,
+      'weißer Zug würde dem weißen König Schach geben! '
+    )
+  }
+
+  if (
+    !weißAmZug &&
+    moeglicheAngriffeWeiß[posSchwarzerKing[0]][posSchwarzerKing[1]] === 'A'
+  ) {
+    console.log('Dieser schwarze Zug würde dem schwarzen König Schach geben!')
+  }
+
   // Figur auf dem Brett auf das Zielfeld bewegen - das Ausgangsfeld, was nun leer ist, wird durch einen "." markiert
   // hier muss noch erfolgen, ob der Zug legitim ist und nicht Schach zulässt (weil er gepinnt ist)
   // Variable direkt im scope der funktion die bestimmt ob der zug legitim ist? Figur datei selbst aber auch dieser hier greifen darauf zu.
@@ -348,7 +430,7 @@ spielen()
 /* LOGIK FÜR SPIELABLAUF 
 Weiß am Zug ,Schwarz etc. durch Überprüfung */
 // Hier nach gibt es drei legitime Züge für Springer
-
+zugMachen('f4-e4')
 zugMachen('e3-d4')
 
 console.log('Angriffe von weiß:')

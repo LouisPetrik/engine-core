@@ -47,7 +47,8 @@ Dafür einen brettState einführen, auf den Züge schon vor bestätigung der leg
 -  Gesamten State auslagern in eine eigene Datei, also brettState, angriffeWeiß etc.
 -  Pushen der verschiedenen Züge in
 -  Was ist, wenn eine Figur ein Feld eigentlich deckt, aber dadurch dass sie gepinnt ist, kann sie effektiv dieses feld nicht decken? Es müsste einen test geben, ob jeder entsprechende zug dazu führt, dass der eigene könig im schach steht.
-Wichtig dabei ist, dass es eine eigene Figur ist, die gezogen wird, die den eigenen König in Schach bringt. 
+Wichtig dabei ist, dass es eine eigene Figur ist, die gezogen wird, die den eigenen König in Schach bringt. Eine Figur kann an den König nur durch Läufer, Turm und Dame gepinnt werden - also muss eine Diagonale oder Linie der Bedrohung vorliegen. Wenn der eigene König auf dieser Linie ist, ohne, dass eine andere Figur dazwischen ist, darf die Figur nicht wegziehen. Anderer Ansatz wäre, dass so wie bisher überprüft wird, ob eine der König in Schach steht, und insofern dies bei einem eigenen Zug geschieht, ist der Zug ungültig - die änderungen können direkt auf brettState übernommen werden, aber sobald das auftritt, wird prevBrettState genutzt, um den brettState wieder herzustellen. 
+3. Idee: Einen State für die ANgriffe namens möglicheAngriffe - dieser wird viel früher überprüft, ob es ein Schachgebot gibt. Diesen Ansatz wähle ich erstmal. 
 -  Abfangen der Möglichkeit, dass eine Figur gezogen werden soll, die nicht existiert.
 
 ## Fragestellungen:
