@@ -4,6 +4,7 @@ import { moeglicheZuegePawn, angegriffeneFelderPawn } from './figuren/Pawn'
 import { moeglicheZuegeKnight } from './figuren/Knight'
 import { moeglicheZuegeRook } from './figuren/Rook'
 import { moeglicheZuegeQueen } from './figuren/Queen'
+import { moeglicheZuegeKing } from './figuren/King'
 import {
 	feldbezeichnungZuKoord,
 	isArrayInArray,
@@ -38,9 +39,9 @@ let brettState = [
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', 'q', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', 'R'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', 'k', '.', '.', '.'],
 ]
 
 // Hier werden einzelne, angegriffene felder mit "a" markiert, für beide farben jeweils.
@@ -67,17 +68,6 @@ let angriffeSchwarz = [
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 ]
 
-// dient allgemein zur visualisierung von möglichen zuegen für alle gezogenen figuren
-let moeglicheZuegeFigur = [
-	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', '.', '.', '.', '.'],
-]
 function brettAusgeben() {
 	console.log('---------------')
 	for (let i = 0; i < brettState.length; i++) {
@@ -89,6 +79,18 @@ function brettAusgeben() {
 }
 
 function moeglicheZuegeAusgeben(moeglicheZuege, figur) {
+	// dient allgemein zur visualisierung von möglichen zuegen für alle gezogenen figuren
+	let moeglicheZuegeFigur = [
+		['.', '.', '.', '.', '.', '.', '.', '.'],
+		['.', '.', '.', '.', '.', '.', '.', '.'],
+		['.', '.', '.', '.', '.', '.', '.', '.'],
+		['.', '.', '.', '.', '.', '.', '.', '.'],
+		['.', '.', '.', '.', '.', '.', '.', '.'],
+		['.', '.', '.', '.', '.', '.', '.', '.'],
+		['.', '.', '.', '.', '.', '.', '.', '.'],
+		['.', '.', '.', '.', '.', '.', '.', '.'],
+	]
+
 	for (let x = 0; x < moeglicheZuege.length; x++) {
 		let i = moeglicheZuege[x][0]
 		let j = moeglicheZuege[x][1]
@@ -218,6 +220,16 @@ function zugMachen(zugNotation) {
 		case 'k':
 			console.log('König wurde bewegt')
 
+			moeglicheZuege = moeglicheZuegeKing(
+				[iAusgangsfeld, jAusgangsfeld],
+				brettState,
+				weißAmZug,
+				angriffeWeiß,
+				angriffeSchwarz
+			)
+
+			moeglicheZuegeAusgeben(moeglicheZuege, 'König')
+			// erst nach überprüfung, ob zug legitim
 			if (weißAmZug) {
 				posWeißerKing = [iZielfeld, jZielfeld]
 			} else {
@@ -275,13 +287,8 @@ function zugMachen(zugNotation) {
 	brettState[iAusgangsfeld][jAusgangsfeld] = '.'
 	brettState[iZielfeld][jZielfeld] = figurZeichen
 
-	console.log('iAusgangsfeld', iAusgangsfeld, 'jAusgangsfeld', jAusgangsfeld)
-	console.log('iZielfeld', iZielfeld, 'jZielfeld', jZielfeld)
-
 	// alle, durch beide farben angegriffenen felder: [0] für weiß, [1] für schwarz.
 	let angegriffeneFelder = angriffeFinden(brettState, weißAmZug)
-
-	console.log('angegriffene felder in index.js:', angegriffeneFelder)
 
 	// i und j sind reserviert für bezeichnung des koord-abschnitt
 	// alle angriffe von weiß einzeichnen:
@@ -324,7 +331,8 @@ spielen()
 Weiß am Zug ,Schwarz etc. durch Überprüfung */
 // Hier nach gibt es drei legitime Züge für Springer
 
-zugMachen('d3-d4')
+zugMachen('h3-h2')
+zugMachen('e1-e2')
 
 console.log('Angriffe von weiß:')
 console.log('---------------')

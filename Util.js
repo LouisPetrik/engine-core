@@ -7,6 +7,7 @@ import {
 import { angegriffeneFelderRook } from './figuren/Rook'
 import { angegriffeneFelderBishop } from './figuren/Bishop'
 import { angegriffeneFelderQueen } from './figuren/Queen'
+import { angegriffeneFelderKing } from './figuren/King'
 
 // Aus der Sicht von Weiß
 // bekommt noch eine Funktion, die ermittelt welches Feld +1 links, rechts, oben, unten liegt
@@ -175,6 +176,32 @@ export function angriffeFinden(brettState, weißAmZug) {
 				) {
 					angegriffeneFelderWeiß.push(
 						angegriffeneFelderQueen(figurPos, brettState)[x]
+					)
+				}
+			}
+
+			if (figur === 'K') {
+				for (
+					let x = 0;
+					x <
+					angegriffeneFelderKing(figurPos, brettState, weißAmZug).length;
+					x++
+				) {
+					angegriffeneFelderWeiß.push(
+						angegriffeneFelderKing(figurPos, brettState)[x]
+					)
+				}
+			}
+
+			if (figur === 'k') {
+				for (
+					let x = 0;
+					x <
+					angegriffeneFelderKing(figurPos, brettState, weißAmZug).length;
+					x++
+				) {
+					angegriffeneFelderSchwarz.push(
+						angegriffeneFelderKing(figurPos, brettState)[x]
 					)
 				}
 			}

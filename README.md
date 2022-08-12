@@ -25,6 +25,7 @@ git ls-files | grep '\.js' | xargs wc -l
 -  En-passant möglichkeit muss auch in den bedrohten feldern erfasst werden.
 -  Gesamten State auslagern in eine eigene Datei, also brettState, angriffeWeiß etc.
 -  Pushen der verschiedenen Züge in
+-  Was ist, wenn eine Figur ein Feld eigentlich deckt, aber dadurch dass sie gepinnt ist, kann sie effektiv dieses feld nicht decken? Es müsste einen test geben, ob jeder entsprechende zug dazu führt, dass der eigene könig im schach steht.
 
 ## Fragestellungen:
 
