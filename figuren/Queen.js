@@ -79,16 +79,13 @@ export function angegriffeneFelderQueen(
 		)
 	)
 
-	console.log('felder aus der queen.js:')
-	console.log(felder)
-
 	return felder
 }
 
 export function moeglicheZuegeQueen(ausgangsfeldKoord, brettState, weißAmZug) {
 	const zuege = []
 
-	felder.push(
+	zuege.push(
 		...linieFelder(brettState, ausgangsfeldKoord, 'oben', 'zuege', weißAmZug),
 		...linieFelder(
 			brettState,
@@ -113,7 +110,7 @@ export function moeglicheZuegeQueen(ausgangsfeldKoord, brettState, weißAmZug) {
 		)
 	)
 
-	felder.push(
+	zuege.push(
 		...diagonaleFelder(
 			brettState,
 			ausgangsfeldKoord,
@@ -143,4 +140,5 @@ export function moeglicheZuegeQueen(ausgangsfeldKoord, brettState, weißAmZug) {
 			weißAmZug
 		)
 	)
+	return zuege
 }

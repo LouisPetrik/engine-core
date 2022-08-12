@@ -3,6 +3,7 @@
 import { moeglicheZuegePawn, angegriffeneFelderPawn } from './figuren/Pawn'
 import { moeglicheZuegeKnight } from './figuren/Knight'
 import { moeglicheZuegeRook } from './figuren/Rook'
+import { moeglicheZuegeQueen } from './figuren/Queen'
 import {
 	feldbezeichnungZuKoord,
 	isArrayInArray,
@@ -66,7 +67,7 @@ let angriffeSchwarz = [
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 ]
 
-// dient allgemein zur visualisierung von möglichen zuegen und angriffen
+// dient allgemein zur visualisierung von möglichen zuegen für alle gezogenen figuren
 let moeglicheZuegeFigur = [
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
@@ -87,6 +88,19 @@ function brettAusgeben() {
 	console.log('Position schwarzer König:', posSchwarzerKing)
 }
 
+function moeglicheZuegeAusgeben(moeglicheZuege, figur) {
+	for (let x = 0; x < moeglicheZuege.length; x++) {
+		let i = moeglicheZuege[x][0]
+		let j = moeglicheZuege[x][1]
+
+		moeglicheZuegeFigur[i][j] = 'X'
+	}
+
+	console.log('Mögliche Züge der Figur ' + figur)
+	for (let i = 0; i < moeglicheZuegeFigur.length; i++) {
+		console.log(moeglicheZuegeFigur[i].join(' '))
+	}
+}
 // Überträgt einen Zug auf direkt auf den Brett-State, ohne zu überprüfen, ob der Zug legitim  ist
 // zug notation muss in der koordinaten notation "e2-e4", also Ausgangsfeld-Zielfeld seien.
 // gibt dann den veränderten brett-state zurück. Bisher nicht ausgegliedert, da direkt auf den brettState zugegriffen wird.
@@ -214,6 +228,13 @@ function zugMachen(zugNotation) {
 		case 'Q':
 		case 'q':
 			console.log('Dame wurde bewegt')
+			moeglicheZuege = moeglicheZuegeQueen(
+				[iAusgangsfeld, jAusgangsfeld],
+				brettState,
+				weißAmZug
+			)
+
+			moeglicheZuegeAusgeben(moeglicheZuege, 'dame')
 			break
 
 		case 'N':
@@ -224,8 +245,6 @@ function zugMachen(zugNotation) {
 				brettState,
 				weißAmZug
 			)
-
-			console.log('Mögliche Springer-Züge', moeglicheZuege)
 
 			if (isArrayInArray(moeglicheZuege, [iZielfeld, jZielfeld])) {
 				console.log('Zug ist legitim')
@@ -247,17 +266,7 @@ function zugMachen(zugNotation) {
 				weißAmZug
 			)
 
-			for (let x = 0; x < moeglicheZuege.length; x++) {
-				let i = moeglicheZuege[x][0]
-				let j = moeglicheZuege[x][1]
-
-				moeglicheZuegeFigur[i][j] = 'X'
-			}
-
-			console.log('Mögliche Züge des bewegten Rooks: ')
-			for (let i = 0; i < moeglicheZuegeFigur.length; i++) {
-				console.log(moeglicheZuegeFigur[i].join(' '))
-			}
+			moeglicheZuegeAusgeben(moeglicheZuege, 'Turm')
 
 			break
 	}
