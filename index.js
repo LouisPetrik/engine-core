@@ -32,13 +32,13 @@ let halbzugNummer = 1
 // wenn Uppercase Buchstabe, dann weiße Figur - wird sammt State, Koordinate und Figur an
 // die entsprechende Methode in der Klasse der Figur übergeben
 let brettState = [
-	['k', 'r', '.', '.', '.', '.', '.', '.'],
-	['.', 'r', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', 'R', '.', '.', '.', '.'],
-	['.', '.', 'R', 'K', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', 'q', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 ]
 
@@ -66,7 +66,8 @@ let angriffeSchwarz = [
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 ]
 
-let moeglicheZuegeRookMap = [
+// dient allgemein zur visualisierung von möglichen zuegen und angriffen
+let moeglicheZuegeFigur = [
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
@@ -250,12 +251,12 @@ function zugMachen(zugNotation) {
 				let i = moeglicheZuege[x][0]
 				let j = moeglicheZuege[x][1]
 
-				moeglicheZuegeRookMap[i][j] = 'X'
+				moeglicheZuegeFigur[i][j] = 'X'
 			}
 
 			console.log('Mögliche Züge des bewegten Rooks: ')
-			for (let i = 0; i < moeglicheZuegeRookMap.length; i++) {
-				console.log(moeglicheZuegeRookMap[i].join(' '))
+			for (let i = 0; i < moeglicheZuegeFigur.length; i++) {
+				console.log(moeglicheZuegeFigur[i].join(' '))
 			}
 
 			break
@@ -265,8 +266,13 @@ function zugMachen(zugNotation) {
 	brettState[iAusgangsfeld][jAusgangsfeld] = '.'
 	brettState[iZielfeld][jZielfeld] = figurZeichen
 
+	console.log('iAusgangsfeld', iAusgangsfeld, 'jAusgangsfeld', jAusgangsfeld)
+	console.log('iZielfeld', iZielfeld, 'jZielfeld', jZielfeld)
+
 	// alle, durch beide farben angegriffenen felder: [0] für weiß, [1] für schwarz.
 	let angegriffeneFelder = angriffeFinden(brettState, weißAmZug)
+
+	console.log('angegriffene felder in index.js:', angegriffeneFelder)
 
 	// i und j sind reserviert für bezeichnung des koord-abschnitt
 	// alle angriffe von weiß einzeichnen:
@@ -309,7 +315,7 @@ spielen()
 Weiß am Zug ,Schwarz etc. durch Überprüfung */
 // Hier nach gibt es drei legitime Züge für Springer
 
-zugMachen('h2-h4')
+zugMachen('d3-d4')
 
 console.log('Angriffe von weiß:')
 console.log('---------------')

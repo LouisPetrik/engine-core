@@ -117,11 +117,11 @@ export function angegriffeneFelderRook(
 }
 
 /**
+ * Muss noch ausgetauscht werden durch die neue funktion in der linie.js datei - wird erstmals an Dame getestet.
  * EIne funktion zur Überprüfung aller möglichen Felder, auf die der Rook ziehen kann.
  * Falls true, kann der Zug in der zuege-liste in der moeglicheZuegeRook funktion aufgenommen werden.
  * Nur zum Testen ob der Rook dahin ziehen kann, nicht ob der Rook dort deckt / angreift!
  */
-function moeglicherZugValide(iVariation, jVariation, brettState, weißAmZug) {}
 /**
  * Gibt alle Felder aus, auf die der Rook ziehen kann. Linien in 4 Richtungen aber geblockt durch eigene figuren. Nicht geblockt
  * durch gegnerische Figuren (inklusive)

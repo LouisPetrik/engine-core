@@ -10,6 +10,8 @@
 ]
 
 
+
+
 // angriffe weiß im turm endspiel: 
 ---------------
 . . A A . . . .
