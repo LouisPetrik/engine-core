@@ -11,6 +11,7 @@ import {
 	angriffeFinden,
 	figurFinden,
 } from './Util.js'
+import { istMatt } from './helpers/check'
 
 // Relevante werte für die partie: (muss final in eine klasse), aber bisher nur zum testen hier drinne
 let weißAmZug = true
@@ -35,14 +36,14 @@ let halbzugNummer = 1
 // wenn Uppercase Buchstabe, dann weiße Figur - wird sammt State, Koordinate und Figur an
 // die entsprechende Methode in der Klasse der Figur übergeben
 let brettState = [
-	['.', '.', '.', '.', 'K', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', 'k'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', '.', 'R', '.', '.'],
-	['.', '.', '.', '.', 'b', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', 'k', '.', '.', '.'],
+	['.', '.', '.', 'r', 'r', '.', '.', '.'],
+	['K', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
 ]
 
 // Hier werden einzelne, angegriffene felder mit "a" markiert, für beide farben jeweils.
@@ -417,10 +418,20 @@ function zugMachen(zugNotation) {
 	// testen, ob einer der beiden könige im schach steht:
 	if (angriffeSchwarz[posWeißerKing[0]][posWeißerKing[1]] === 'A') {
 		console.log('Weißer könig steht im schach!')
+
+		// jetzt testen, ob es eventuell Matt ist:
+		istMatt(brettState, 'weiß', angriffeWeiß, angriffeSchwarz, posWeißerKing)
 	}
 
 	if (angriffeWeiß[posSchwarzerKing[0]][posSchwarzerKing[1]] === 'A') {
 		console.log('Schwarzer könig steht im schach!')
+		istMatt(
+			brettState,
+			'schwarz',
+			angriffeWeiß,
+			angriffeSchwarz,
+			posSchwarzerKing
+		)
 	}
 
 	// nun ist wieder die andere Farbe am Zug
@@ -438,8 +449,8 @@ spielen()
 /* LOGIK FÜR SPIELABLAUF 
 Weiß am Zug ,Schwarz etc. durch Überprüfung */
 // Hier nach gibt es drei legitime Züge für Springer
-zugMachen('f4-e4')
-zugMachen('e3-d4')
+
+zugMachen('e3-e2')
 
 console.log('Angriffe von weiß:')
 console.log('---------------')
