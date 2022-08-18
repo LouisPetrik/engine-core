@@ -31,6 +31,15 @@ export function isArrayInArray(arr, item) {
 	return contains
 }
 
+// gibt die array-koordinanten einer gefunden figur zurück. Genutzt z. B. um immer die aktuelle position der
+// beiden könige zu haben, damit ein schach bewertet werden kann.
+export function figurFinden(figurZeichen, brettState) {
+	const row = brettState.findIndex((row) => row.includes(figurZeichen))
+	const col = brettState[row].indexOf(figurZeichen)
+
+	return [row, col]
+}
+
 // bekommt die schach-koordinate / Feldbezeichnung z. B. e3, a7 oder g4 übergeben und
 // gibt diese als position im array zurück mit i,j.
 export function feldbezeichnungZuKoord(feld) {
