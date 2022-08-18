@@ -41,9 +41,9 @@ let brettState = [
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', 'r', 'r', '.', '.', '.'],
+	['.', '.', '.', '.', 'r', '.', '.', '.'],
+	['.', '.', '.', 'r', '.', '.', '.', '.'],
 	['K', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', '.', '.', '.', '.'],
 ]
 
 // Hier werden einzelne, angegriffene felder mit "a" markiert, für beide farben jeweils.
@@ -420,18 +420,32 @@ function zugMachen(zugNotation) {
 		console.log('Weißer könig steht im schach!')
 
 		// jetzt testen, ob es eventuell Matt ist:
-		istMatt(brettState, 'weiß', angriffeWeiß, angriffeSchwarz, posWeißerKing)
+		if (
+			istMatt(
+				brettState,
+				'weiß',
+				angriffeWeiß,
+				angriffeSchwarz,
+				posWeißerKing
+			).length === 0
+		) {
+			console.log('Schachmatt, Schwarz gewinnt!')
+		}
 	}
 
 	if (angriffeWeiß[posSchwarzerKing[0]][posSchwarzerKing[1]] === 'A') {
 		console.log('Schwarzer könig steht im schach!')
-		istMatt(
-			brettState,
-			'schwarz',
-			angriffeWeiß,
-			angriffeSchwarz,
-			posSchwarzerKing
-		)
+		if (
+			istMatt(
+				brettState,
+				'schwarz',
+				angriffeWeiß,
+				angriffeSchwarz,
+				posSchwarzerKing
+			).length === 0
+		) {
+			console.log('Schachmatt! Weiß gewinnt')
+		}
 	}
 
 	// nun ist wieder die andere Farbe am Zug
@@ -450,7 +464,7 @@ spielen()
 Weiß am Zug ,Schwarz etc. durch Überprüfung */
 // Hier nach gibt es drei legitime Züge für Springer
 
-zugMachen('e3-e2')
+zugMachen('e3-e1')
 
 console.log('Angriffe von weiß:')
 console.log('---------------')

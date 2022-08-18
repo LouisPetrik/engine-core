@@ -58,29 +58,31 @@ export function istMatt(
 	if (figuren.length === 0) {
 		if (schachGegen === 'schwarz') {
 			// schwarz am Zug
-			console.log(
-				'Mögliche Züge für schwarzen König alleine im Schach: ',
-				moeglicheZuegeKing(
-					posBetroffenerKing,
-					brettState,
-					false,
-					angriffeWeiß,
-					angriffeSchwarz
-				)
+
+			const moeglicheZuege = moeglicheZuegeKing(
+				posBetroffenerKing,
+				brettState,
+				false,
+				angriffeWeiß,
+				angriffeSchwarz
 			)
+			// muss noch unmgeschrieben werden, soll nur abfangen, dass arrays wie [ [] ] als rückgabe entstehen.
+			if (moeglicheZuege.length > 0) {
+				legitimeZuege.push(moeglicheZuege)
+			}
 		}
 		if (schachGegen === 'weiß') {
 			// weiß am Zug
-			console.log(
-				'Mögliche Züge für weißem König alleine im Schach: ',
-				moeglicheZuegeKing(
-					posBetroffenerKing,
-					brettState,
-					true,
-					angriffeWeiß,
-					angriffeSchwarz
-				)
+			const moeglicheZuege = moeglicheZuegeKing(
+				posBetroffenerKing,
+				brettState,
+				true,
+				angriffeWeiß,
+				angriffeSchwarz
 			)
+			if (moeglicheZuege.length > 0) {
+				legitimeZuege.push(moeglicheZuege)
+			}
 		}
 	}
 
