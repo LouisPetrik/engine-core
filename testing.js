@@ -10,6 +10,32 @@
 ]
 
 
+// so ohne die istMatt funktion: So ist richtig, bishop wird also irgendwie gemoved. 
+
+---------------
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+. . . . . . . K
+. . . . . . . .
+. . . . . . . .
+. . b R . . . .
+k . . . R . . .
+---------------
+
+
+// so mit der istMatt funktion 
+---------------
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+. . . . . . . K
+. . . . . . . .
+. . . b . . . .
+. . . R . . . .
+k . . . R . . .
+---------------
+
 
 
 // angriffe weiß im turm endspiel: 

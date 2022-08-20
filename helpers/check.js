@@ -1,8 +1,66 @@
 import { moeglicheZuegeKing } from '../figuren/King'
-
+import { moeglicheZuegeQueen } from '../figuren/Queen'
+import { moeglicheZuegeBishop } from '../figuren/Bishop'
+import { angriffeFinden } from '../Util'
 // Eine Datei, die alle Funktionen enhalten soll, die schauen, welche Züge legitim sind nach einem Schach,
 // oder ob es ein Schachmatt ist.
 
+/**
+ * Hilfsfunktion, die Züge einer übergebenen Figur zurückgibt, die das Schach
+ * aufheben.
+ * @param posFigur
+ * @param zuegeFigur
+ * @param brettState
+ * @param posBetroffenerKing
+ * @param schachGegen
+ */
+function hebtZugSchachAuf(
+	posFigur,
+	zuegeFigur,
+	brettState,
+	posBetroffenerKing,
+	schachGegen
+) {
+	const aufhebendeZuege = []
+	const iAktuell = posFigur[0]
+	const jAktuell = posFigur[1]
+
+	// hier ist die position auch noch richtig
+	console.log('schwarzer bishop steht auf', iAktuell, jAktuell)
+
+	// ist irgendwie noch undefined.
+
+	for (let i = 0; i < zuegeFigur.length; i++) {
+		// den Zug der Figur auf den kopierten brett state bringen:
+		// WICHTIG: Muss Kopie sein, keine Referenz, da brettState selbst nicht mutated werden darf!
+		const brettStateKopie = Array.from(brettState)
+
+		const figurZeichen = brettStateKopie[iAktuell][jAktuell]
+
+		const iZielfeld = zuegeFigur[i][0]
+		const jZielfeld = zuegeFigur[i][1]
+
+		brettStateKopie[iAktuell][jAktuell] = '.'
+		brettStateKopie[iZielfeld][jZielfeld] = figurZeichen
+
+		const iPosKing = posBetroffenerKing[0]
+		const jPosKing = posBetroffenerKing[1]
+
+		if (schachGegen === 'schwarz') {
+			const angriffe = angriffeFinden(brettStateKopie, false)
+
+			// insofern das Feld des Königs durch den möglichen Zug dann nicht mehr angegriffen wird
+			if (angriffe[iPosKing[jPosKing] !== 'A']) {
+				aufhebendeZuege.push(zuegeFigur[i])
+			}
+		}
+		if (schachGegen === 'weiß') {
+			angriffeFinden(brettStateKopie, true)
+		}
+	}
+
+	return aufhebendeZuege
+}
 /**
  *
  * @param {*} brettState wie immer
@@ -51,6 +109,7 @@ export function istMatt(
 		}
 	}
 
+	// hier ist die position des bishops noch normal, bevor sie fälschlicher weise verändert wird.
 	console.log(schachGegen, 'hat folgende figuren:', figuren)
 
 	// nur noch der könig. Alle möglichen Züge für ihn generieren. Dann für alle Testen, ob sie noch im angegriffenen
@@ -82,6 +141,55 @@ export function istMatt(
 			)
 			if (moeglicheZuege.length > 0) {
 				legitimeZuege.push(moeglicheZuege)
+			}
+		}
+		// es gibt noch andere figuren, die die Seite im Schach hat.
+	} else {
+		/* jetzt für die verbleibenden figuren der seite über alle möglichen züge gehen, 
+        und dann die möglichen brett-states über funktion für die bedrohungen übergeben. Wenn dann in einer dieser
+        outcomes der könig nicht mehr im schach steht, wird er gepushed. 
+        */
+		for (let i = 0; i < figuren.length; i++) {
+			const figur = figuren[i][0]
+			const position = figuren[i][1]
+			switch (figur) {
+				case 'Q':
+				case 'q':
+					moeglicheZuegeQueen()
+				case 'B':
+				case 'b':
+					if (schachGegen === 'schwarz') {
+						const moeglicheZuege = moeglicheZuegeBishop(
+							position,
+							brettState,
+							false
+						)
+
+						// hier ist auch noch die position richtig
+						console.log(
+							'mögliche zuege schwarzer bishop: ',
+							moeglicheZuege
+						)
+
+						const aufhebendeZuege = hebtZugSchachAuf(
+							position,
+							moeglicheZuege,
+							brettState,
+							posBetroffenerKing,
+							schachGegen
+						)
+
+						console.log(
+							'Bishop kann Schach aufheben mit Zug: ',
+							aufhebendeZuege
+						)
+					}
+					if (schachGegen === 'weiß') {
+						console.log(
+							'mögliche zuege bishop: ',
+							moeglicheZuegeBishop(position, brettState, true)
+						)
+					}
 			}
 		}
 	}

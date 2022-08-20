@@ -82,6 +82,13 @@ export function angegriffeneFelderQueen(
 	return felder
 }
 
+/**
+ *
+ * @param {*} ausgangsfeldKoord
+ * @param {*} brettState
+ * @param {*} weißAmZug
+ * @returns array der möglichen züge
+ */
 export function moeglicheZuegeQueen(ausgangsfeldKoord, brettState, weißAmZug) {
 	const zuege = []
 
