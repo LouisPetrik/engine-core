@@ -113,6 +113,7 @@ function moeglicheAngriffeZuruecksetzen() {
 }
 
 function brettAusgeben() {
+	console.log('letzter Stand:')
 	console.log('---------------')
 	for (let i = 0; i < brettState.length; i++) {
 		console.log(brettState[i].join(' '))

@@ -1,7 +1,7 @@
 import { moeglicheZuegeKing } from '../figuren/King'
 import { moeglicheZuegeQueen } from '../figuren/Queen'
 import { moeglicheZuegeBishop } from '../figuren/Bishop'
-import { angriffeFinden } from '../Util'
+import { angriffeFinden, isArrayInArray } from '../Util'
 // Eine Datei, die alle Funktionen enhalten soll, die schauen, welche Züge legitim sind nach einem Schach,
 // oder ob es ein Schachmatt ist.
 
@@ -25,15 +25,27 @@ function hebtZugSchachAuf(
 	const iAktuell = posFigur[0]
 	const jAktuell = posFigur[1]
 
-	// hier ist die position auch noch richtig
-	console.log('schwarzer bishop steht auf', iAktuell, jAktuell)
-
 	// ist irgendwie noch undefined.
 
 	for (let i = 0; i < zuegeFigur.length; i++) {
+		if (brettState[5][3] === 'b') {
+			console.log('bishop jetzt auf falscher position, durchlauf', i)
+		}
 		// den Zug der Figur auf den kopierten brett state bringen:
 		// WICHTIG: Muss Kopie sein, keine Referenz, da brettState selbst nicht mutated werden darf!
-		const brettStateKopie = Array.from(brettState)
+		// const brettStateKopie = Array.from(brettState)
+		// die kopie per hand anlegen: (das funktioniert irgendwie: )
+
+		const brettStateKopie = [
+			['.', '.', '.', '.', '.', '.', '.', '.'],
+			['.', '.', '.', '.', '.', '.', '.', '.'],
+			['.', '.', '.', '.', '.', '.', '.', '.'],
+			['.', '.', '.', '.', '.', '.', '.', 'K'],
+			['.', '.', '.', '.', '.', '.', '.', '.'],
+			['.', '.', '.', '.', '.', '.', '.', '.'],
+			['.', '.', 'b', 'R', '.', '.', '.', '.'],
+			['k', '.', '.', '.', 'R', '.', '.', '.'],
+		]
 
 		const figurZeichen = brettStateKopie[iAktuell][jAktuell]
 
@@ -47,10 +59,14 @@ function hebtZugSchachAuf(
 		const jPosKing = posBetroffenerKing[1]
 
 		if (schachGegen === 'schwarz') {
-			const angriffe = angriffeFinden(brettStateKopie, false)
+			// angriffe ist dreidimensionales array mit allen feldern, die angegriffen werden (nicht visuell mit As und . !)
+			// für benutzung in Util.js nachschauen.
+			const angriffeWeiß = angriffeFinden(brettStateKopie, false)[0]
+			// wieso enhalten die angriffeWeiß das feld mit dem könig nicht?
+			// Weil der ausgeführt zug noch nicht auf der brettstate kopie war.
 
 			// insofern das Feld des Königs durch den möglichen Zug dann nicht mehr angegriffen wird
-			if (angriffe[iPosKing[jPosKing] !== 'A']) {
+			if (!isArrayInArray(angriffeWeiß, posBetroffenerKing)) {
 				aufhebendeZuege.push(zuegeFigur[i])
 			}
 		}
