@@ -25,12 +25,7 @@ function hebtZugSchachAuf(
 	const iAktuell = posFigur[0]
 	const jAktuell = posFigur[1]
 
-	// ist irgendwie noch undefined.
-
 	for (let i = 0; i < zuegeFigur.length; i++) {
-		if (brettState[5][3] === 'b') {
-			console.log('bishop jetzt auf falscher position, durchlauf', i)
-		}
 		// den Zug der Figur auf den kopierten brett state bringen:
 		// WICHTIG: Muss Kopie sein, keine Referenz, da brettState selbst nicht mutated werden darf
 		// Daher wird zuerst leeres 8 mal 8 array erstellt und dann mit den werten aus brettState gefüllt.
@@ -69,7 +64,14 @@ function hebtZugSchachAuf(
 			}
 		}
 		if (schachGegen === 'weiß') {
-			angriffeFinden(brettStateKopie, true)
+			const angriffeSchwarz = angriffeFinden(brettStateKopie, true)[1]
+			// wieso enhalten die angriffeWeiß das feld mit dem könig nicht?
+			// Weil der ausgeführt zug noch nicht auf der brettstate kopie war.
+
+			// insofern das Feld des Königs durch den möglichen Zug dann nicht mehr angegriffen wird
+			if (!isArrayInArray(angriffeSchwarz, posBetroffenerKing)) {
+				aufhebendeZuege.push(zuegeFigur[i])
+			}
 		}
 	}
 
@@ -162,6 +164,7 @@ export function istMatt(
 		/* jetzt für die verbleibenden figuren der seite über alle möglichen züge gehen, 
         und dann die möglichen brett-states über funktion für die bedrohungen übergeben. Wenn dann in einer dieser
         outcomes der könig nicht mehr im schach steht, wird er gepushed. 
+        Muss noch massiv verkürzt / vereinfacht werden 
         */
 		for (let i = 0; i < figuren.length; i++) {
 			const figur = figuren[i][0]
@@ -169,20 +172,11 @@ export function istMatt(
 			switch (figur) {
 				case 'Q':
 				case 'q':
-					moeglicheZuegeQueen()
-				case 'B':
-				case 'b':
 					if (schachGegen === 'schwarz') {
-						const moeglicheZuege = moeglicheZuegeBishop(
+						const moeglicheZuege = moeglicheZuegeQueen(
 							position,
 							brettState,
 							false
-						)
-
-						// hier ist auch noch die position richtig
-						console.log(
-							'mögliche zuege schwarzer bishop: ',
-							moeglicheZuege
 						)
 
 						const aufhebendeZuege = hebtZugSchachAuf(
@@ -193,17 +187,84 @@ export function istMatt(
 							schachGegen
 						)
 
+						legitimeZuege.push(aufhebendeZuege)
 						console.log(
-							'Bishop kann Schach aufheben mit Zug: ',
+							'Schwarze Queen kann Schach aufheben mit Zug: ',
 							aufhebendeZuege
 						)
 					}
 					if (schachGegen === 'weiß') {
+						const moeglicheZuege = moeglicheZuegeQueen(
+							position,
+							brettState,
+							true
+						)
+
+						const aufhebendeZuege = hebtZugSchachAuf(
+							position,
+							moeglicheZuege,
+							brettState,
+							posBetroffenerKing,
+							schachGegen
+						)
+
+						legitimeZuege.push(aufhebendeZuege)
+
 						console.log(
-							'mögliche zuege bishop: ',
-							moeglicheZuegeBishop(position, brettState, true)
+							'Weiße Queen kann Schach aufheben mit Zug: ',
+							aufhebendeZuege
 						)
 					}
+
+					break
+				case 'B':
+				case 'b':
+					if (schachGegen === 'schwarz') {
+						const moeglicheZuege = moeglicheZuegeBishop(
+							position,
+							brettState,
+							false
+						)
+
+						const aufhebendeZuege = hebtZugSchachAuf(
+							position,
+							moeglicheZuege,
+							brettState,
+							posBetroffenerKing,
+							schachGegen
+						)
+
+						legitimeZuege.push(aufhebendeZuege)
+
+						console.log(
+							'Schwarzer Bishop kann Schach aufheben mit Zug: ',
+							aufhebendeZuege
+						)
+					}
+					if (schachGegen === 'weiß') {
+						const moeglicheZuege = moeglicheZuegeBishop(
+							position,
+							brettState,
+							true
+						)
+
+						const aufhebendeZuege = hebtZugSchachAuf(
+							position,
+							moeglicheZuege,
+							brettState,
+							posBetroffenerKing,
+							schachGegen
+						)
+
+						legitimeZuege.push(aufhebendeZuege)
+
+						console.log(
+							'Weißer Bishop kann Schach aufheben mit Zug: ',
+							aufhebendeZuege
+						)
+					}
+
+					break
 			}
 		}
 	}
