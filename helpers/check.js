@@ -32,20 +32,18 @@ function hebtZugSchachAuf(
 			console.log('bishop jetzt auf falscher position, durchlauf', i)
 		}
 		// den Zug der Figur auf den kopierten brett state bringen:
-		// WICHTIG: Muss Kopie sein, keine Referenz, da brettState selbst nicht mutated werden darf!
-		// const brettStateKopie = Array.from(brettState)
-		// die kopie per hand anlegen: (das funktioniert irgendwie: )
+		// WICHTIG: Muss Kopie sein, keine Referenz, da brettState selbst nicht mutated werden darf
+		// Daher wird zuerst leeres 8 mal 8 array erstellt und dann mit den werten aus brettState gefüllt.
+		// Array.from(brettState) geht irgendwie nicht.
+		const brettStateKopie = Array.from(Array(8), () =>
+			new Array(8).fill(null)
+		)
 
-		const brettStateKopie = [
-			['.', '.', '.', '.', '.', '.', '.', '.'],
-			['.', '.', '.', '.', '.', '.', '.', '.'],
-			['.', '.', '.', '.', '.', '.', '.', '.'],
-			['.', '.', '.', '.', '.', '.', '.', 'K'],
-			['.', '.', '.', '.', '.', '.', '.', '.'],
-			['.', '.', '.', '.', '.', '.', '.', '.'],
-			['.', '.', 'b', 'R', '.', '.', '.', '.'],
-			['k', '.', '.', '.', 'R', '.', '.', '.'],
-		]
+		for (let x = 0; x < 8; x++) {
+			for (let y = 0; y < 8; y++) {
+				brettStateKopie[x][y] = brettState[x][y]
+			}
+		}
 
 		const figurZeichen = brettStateKopie[iAktuell][jAktuell]
 
