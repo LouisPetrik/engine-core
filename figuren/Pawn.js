@@ -146,7 +146,6 @@ export function moeglicheZuegePawn(
 		if (enPassantBauer !== null) {
 			// en passant nach rechts:
 
-			console.log('Pawn.js en passant schlagbarer bauer ', i, j + 1)
 			if (
 				['P'].includes(brettState[i][j + 1]) &&
 				enPassantBauer[0] == i &&

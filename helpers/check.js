@@ -193,7 +193,10 @@ export function istMatt(
 							schachGegen
 						)
 
-						legitimeZuege.push(aufhebendeZuege)
+						if (aufhebendeZuege.length > 0) {
+							legitimeZuege.push(aufhebendeZuege)
+						}
+
 						console.log(
 							'Schwarze Queen kann Schach aufheben mit Zug: ',
 							aufhebendeZuege
@@ -214,7 +217,9 @@ export function istMatt(
 							schachGegen
 						)
 
-						legitimeZuege.push(aufhebendeZuege)
+						if (aufhebendeZuege.length > 0) {
+							legitimeZuege.push(aufhebendeZuege)
+						}
 
 						console.log(
 							'Weiße Queen kann Schach aufheben mit Zug: ',
@@ -240,7 +245,9 @@ export function istMatt(
 							schachGegen
 						)
 
-						legitimeZuege.push(aufhebendeZuege)
+						if (aufhebendeZuege.length > 0) {
+							legitimeZuege.push(aufhebendeZuege)
+						}
 
 						console.log(
 							'Schwarzer Bishop kann Schach aufheben mit Zug: ',
@@ -262,7 +269,9 @@ export function istMatt(
 							schachGegen
 						)
 
-						legitimeZuege.push(aufhebendeZuege)
+						if (aufhebendeZuege.length > 0) {
+							legitimeZuege.push(aufhebendeZuege)
+						}
 
 						console.log(
 							'Weißer Bishop kann Schach aufheben mit Zug: ',
@@ -288,7 +297,9 @@ export function istMatt(
 							schachGegen
 						)
 
-						legitimeZuege.push(aufhebendeZuege)
+						if (aufhebendeZuege.length > 0) {
+							legitimeZuege.push(aufhebendeZuege)
+						}
 
 						console.log(
 							'Schwarzer Knight kann Schach aufheben mit Zug: ',
@@ -310,7 +321,9 @@ export function istMatt(
 							schachGegen
 						)
 
-						legitimeZuege.push(aufhebendeZuege)
+						if (aufhebendeZuege.length > 0) {
+							legitimeZuege.push(aufhebendeZuege)
+						}
 
 						console.log(
 							'Weißer Knight kann Schach aufheben mit Zug: ',
@@ -336,7 +349,9 @@ export function istMatt(
 							schachGegen
 						)
 
-						legitimeZuege.push(aufhebendeZuege)
+						if (aufhebendeZuege.length > 0) {
+							legitimeZuege.push(aufhebendeZuege)
+						}
 
 						console.log(
 							'Schwarzer Rook kann Schach aufheben mit Zug: ',
@@ -358,7 +373,9 @@ export function istMatt(
 							schachGegen
 						)
 
-						legitimeZuege.push(aufhebendeZuege)
+						if (aufhebendeZuege.length > 0) {
+							legitimeZuege.push(aufhebendeZuege)
+						}
 
 						console.log(
 							'Weißer Rook kann Schach aufheben mit Zug: ',
@@ -388,12 +405,9 @@ export function istMatt(
 							schachGegen
 						)
 
-						legitimeZuege.push(aufhebendeZuege)
-
-						console.log(
-							'Schwarzer Pawn kann Schach aufheben mit Zug: ',
-							aufhebendeZuege
-						)
+						if (aufhebendeZuege.length > 0) {
+							legitimeZuege.push(aufhebendeZuege)
+						}
 					}
 
 					if (schachGegen === 'weiß') {
@@ -412,12 +426,9 @@ export function istMatt(
 							schachGegen
 						)
 
-						legitimeZuege.push(aufhebendeZuege)
-
-						console.log(
-							'Schwarzer Pawn kann Schach aufheben mit Zug: ',
-							aufhebendeZuege
-						)
+						if (aufhebendeZuege.length > 0) {
+							legitimeZuege.push(aufhebendeZuege)
+						}
 					}
 			}
 		}

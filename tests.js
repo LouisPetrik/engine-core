@@ -57,6 +57,30 @@ zugMachen('d7-d6')
 zugMachen('h5-f7')
 
 // matt-falle gegen die dutch defense
+zugMachen('d2-d4')
+zugMachen('f7-f5')
+zugMachen('c1-g5')
+zugMachen('h7-h6')
+zugMachen('g5-h4')
+zugMachen('g7-g5')
+zugMachen('h4-g3')
+zugMachen('f5-f4')
+zugMachen('e2-e3')
+zugMachen('f4-g3')
+zugMachen('d1-h5')
+
+// bauern-endspiel-matt
+let brettState = [
+	['.', 'k', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', 'P', '.', 'h', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', 'B', '.'],
+	['.', '.', '.', '.', '.', 'B', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['R', '.', 'R', '.', '.', '.', 'K', '.'],
+]
+zugMachen('c6-c7')
 
 // Pinn des Bishops:
 // weiß ist dran und versucht e3-c4 zu spielen, was natürlich nicht erlaubt ist.

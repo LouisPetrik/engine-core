@@ -36,14 +36,14 @@ let halbzugNummer = 1
 // wenn Uppercase Buchstabe, dann weiße Figur - wird sammt State, Koordinate und Figur an
 // die entsprechende Methode in der Klasse der Figur übergeben
 let brettState = [
-	['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
-	['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+	['.', 'k', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', 'P', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', 'B', '.'],
+	['.', '.', '.', '.', '.', 'B', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
-	['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
+	['R', '.', 'R', '.', '.', '.', 'K', '.'],
 ]
 
 // Hier werden einzelne, angegriffene felder mit "a" markiert, für beide farben jeweils.
@@ -472,17 +472,11 @@ function spielen() {
 
 spielen()
 
+zugMachen('c6-c7')
+
 /* LOGIK FÜR SPIELABLAUF 
 Weiß am Zug ,Schwarz etc. durch Überprüfung */
 // Hier nach gibt es drei legitime Züge für Springer
-
-zugMachen('e2-e4')
-zugMachen('e7-e5')
-zugMachen('d1-h5')
-zugMachen('b8-c6')
-zugMachen('f1-c4')
-zugMachen('d7-d6')
-zugMachen('h5-f7')
 
 console.log('Angriffe von weiß:')
 console.log('---------------')
