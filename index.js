@@ -12,6 +12,7 @@ import {
 	figurFinden,
 } from './Util.js'
 import { istMatt } from './helpers/check'
+import { farbeStehtImPatt } from './helpers/remis'
 
 // Relevante werte für die partie: (muss final in eine klasse), aber bisher nur zum testen hier drinne
 let weißAmZug = true
@@ -21,6 +22,18 @@ let posSchwarzerKing = [0, 4]
 
 let weißHatRochiert = false
 let schwarzHatRochiert = false
+
+// wird beides sofort auf false gesetzt wenn könig bewegt wurde, oder entsprechend auf false,
+// wenn benötigter turm bewegt wurde.
+let weißRochadeKurzMoeglich = true
+let weißRochadeLangMoeglich = true
+
+let schwarzRochadeKurzMoeglich = true
+let schwarzRochadeLangMoeglich = true
+// wird für die rochade und das überprüfen auf stalemate benötigt, damit nicht unnötig viele if-else eingeführt werden.
+// wird am anfang der zugMachen funktion zurückgesetzt auf false.
+let weißerKingImSchach = false
+let schwarzerKingImSchach = false
 
 // wann immer ein Bauer einen Doppelschritt aus der Grundstellung gemacht hat, kann hier seine Linie vermerkt werden
 // (j-Koordinatenwert) Damit kann gecheckt werden, ob dieser Bauer durch En-passant geschlagen werden kann.
@@ -36,16 +49,15 @@ let halbzugNummer = 1
 // wenn Uppercase Buchstabe, dann weiße Figur - wird sammt State, Koordinate und Figur an
 // die entsprechende Methode in der Klasse der Figur übergeben
 let brettState = [
-	['.', 'k', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', 'P', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', '.', '.', 'B', '.'],
-	['.', '.', '.', '.', '.', 'B', '.', '.'],
+	['.', 'K', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', 'Q', '.', '.'],
+	['.', '.', '.', '.', '.', '.', 'Q', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['R', '.', 'R', '.', '.', '.', 'K', '.'],
+	['.', '.', '.', '.', '.', '.', '.', 'b'],
+	['.', '.', '.', '.', '.', '.', '.', 'k'],
 ]
-
 // Hier werden einzelne, angegriffene felder mit "a" markiert, für beide farben jeweils.
 // Immer nach einem legitimen zug wird aktualisiert, und somit auch erkannt, ob der könig im schach steht
 // Dieser Felder können noch kompakter mit array.fill() generiert werden.
@@ -162,6 +174,10 @@ function zugMachen(zugNotation) {
 	// sollte vielleicht erst später inkrementiert werden, da hier zuerst abgefangen werden muss, wenn
 	// feld ohne figur bewegt wird.
 	halbzugNummer++
+
+	// zurücksetzen, da nur eventuell im laufe der funktion auf true gesetzt werden muss
+	weißerKingImSchach = false
+	schwarzerKingImSchach = false
 
 	// aktuelle position der beiden könige erfassen, damit ein schach gefunden werden kann
 	posWeißerKing = figurFinden('K', brettState)
@@ -285,9 +301,14 @@ function zugMachen(zugNotation) {
 			moeglicheZuegeAusgeben(moeglicheZuege, 'König')
 			// erst nach überprüfung, ob zug legitim
 			if (weißAmZug) {
+				weißRochadeKurzMoeglich = false
+				weißRochadeLangMoeglich = false
+
 				posWeißerKing = [iZielfeld, jZielfeld]
 			} else {
 				posSchwarzerKing = [iZielfeld, jZielfeld]
+				schwarzRochadeKurzMoeglich = false
+				schwarzHatRochiert = false
 			}
 			break
 
@@ -333,6 +354,23 @@ function zugMachen(zugNotation) {
 			)
 
 			moeglicheZuegeAusgeben(moeglicheZuege, 'Turm')
+
+			// eigentlich muss hiervor noch überprüft werden ob der turm zu legitim war.
+			if (iAusgangsfeld === 7 && jAusgangsfeld === 0) {
+				weißRochadeLangMoeglich = false
+			}
+
+			if (iAusgangsfeld === 7 && jAusgangsfeld === 7) {
+				weißRochadeKurzMoeglich = false
+			}
+
+			if (iAusgangsfeld === 0 && jAusgangsfeld === 0) {
+				schwarzRochadeLangMoeglich = false
+			}
+
+			if (iAusgangsfeld === 0 && jAusgangsfeld === 7) {
+				schwarzRochadeKurzMoeglich = false
+			}
 
 			break
 	}
@@ -418,6 +456,7 @@ function zugMachen(zugNotation) {
 
 	// testen, ob einer der beiden könige im schach steht:
 	if (angriffeSchwarz[posWeißerKing[0]][posWeißerKing[1]] === 'A') {
+		weißerKingImSchach = true
 		console.log('Weißer könig steht im schach!')
 
 		// jetzt testen, ob es eventuell Matt ist:
@@ -436,6 +475,7 @@ function zugMachen(zugNotation) {
 	}
 
 	if (angriffeWeiß[posSchwarzerKing[0]][posSchwarzerKing[1]] === 'A') {
+		schwarzerKingImSchach = true
 		console.log('Schwarzer könig steht im schach!')
 		console.log(
 			'mögliche züge dagegen: ',
@@ -460,6 +500,21 @@ function zugMachen(zugNotation) {
 		}
 	}
 
+	// Auf stalemate überprüfen. nur in diesem fall kann es ein stalemate sein
+	// An dieser stelle im Code ist schon klar, dass der Zug, für den die Funktion aufgerufen wurde, legitim ist.
+	if (!weißerKingImSchach && !schwarzerKingImSchach) {
+		// wenn weiß am zug war, und einen zug gemacht hat, wird überprüft, ob schwarz noch legitime züge hat.
+		// hierzu können die möglichenAngriffe arrays übergeben werden, damit getestet werden kann, ob einer der verbleibenden züge
+		// illegitim ist, da er den eigenen könig schach geben würde.
+
+		farbeStehtImPatt(
+			brettState,
+			moeglicheAngriffeWeiß,
+			moeglicheAngriffeSchwarz,
+			weißAmZug
+		)
+	}
+
 	// nun ist wieder die andere Farbe am Zug
 	weißAmZug = !weißAmZug
 
@@ -472,7 +527,7 @@ function spielen() {
 
 spielen()
 
-zugMachen('c6-c7')
+zugMachen('f5-h5')
 
 /* LOGIK FÜR SPIELABLAUF 
 Weiß am Zug ,Schwarz etc. durch Überprüfung */

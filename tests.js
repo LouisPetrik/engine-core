@@ -63,12 +63,24 @@ zugMachen('c1-g5')
 zugMachen('h7-h6')
 zugMachen('g5-h4')
 zugMachen('g7-g5')
-zugMachen('h4-g3')
+zugMachen('h4-g3')e
 zugMachen('f5-f4')
 zugMachen('e2-e3')
 zugMachen('f4-g3')
 zugMachen('d1-h5')
 
+// stalemate / patt:
+let brettState = [
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', 'K', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', 'Q', '.', '.'],
+	['.', '.', '.', '.', '.', '.', 'Q', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', 'b'],
+	['.', '.', '.', '.', '.', '.', '.', 'k'],
+]
+zugMachen("f5-h5")
 // bauern-endspiel-matt
 let brettState = [
 	['.', 'k', '.', '.', '.', '.', '.', '.'],
