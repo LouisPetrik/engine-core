@@ -47,6 +47,17 @@ zugMachen('e2-e4')
 zugMachen('f7-f6')
 zugMachen('d1-h5')
 
+// schäfer matt
+zugMachen('e2-e4')
+zugMachen('e7-e5')
+zugMachen('d1-h5')
+zugMachen('b8-c6')
+zugMachen('f1-c4')
+zugMachen('d7-d6')
+zugMachen('h5-f7')
+
+// matt-falle gegen die dutch defense
+
 // Pinn des Bishops:
 // weiß ist dran und versucht e3-c4 zu spielen, was natürlich nicht erlaubt ist.
 let brettState = [

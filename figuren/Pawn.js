@@ -25,11 +25,6 @@ export function moeglicheZuegePawn(
 	weißAmZug,
 	enPassantBauer
 ) {
-	console.log('alle übergebenen parameter: ')
-	console.log('ausgangsfeldkoord:', ausgangsfeldKoord)
-	console.log('brettState:', brettState)
-	console.log('weißAmZug:', weißAmZug)
-
 	const zuege = []
 
 	// testen, ob direkt vor dem bauer eine figur schlägt -> nicht ein feld und auch keine zwei züge möglich

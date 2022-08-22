@@ -36,14 +36,14 @@ let halbzugNummer = 1
 // wenn Uppercase Buchstabe, dann weiße Figur - wird sammt State, Koordinate und Figur an
 // die entsprechende Methode in der Klasse der Figur übergeben
 let brettState = [
-	['K', '.', '.', '.', '.', '.', '.', '.'],
-	['.', 'P', 'r', '.', '.', '.', '.', '.'],
+	['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
+	['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', '.', '.', 'k', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+	['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
 ]
 
 // Hier werden einzelne, angegriffene felder mit "a" markiert, für beide farben jeweils.
@@ -437,6 +437,16 @@ function zugMachen(zugNotation) {
 
 	if (angriffeWeiß[posSchwarzerKing[0]][posSchwarzerKing[1]] === 'A') {
 		console.log('Schwarzer könig steht im schach!')
+		console.log(
+			'mögliche züge dagegen: ',
+			istMatt(
+				brettState,
+				'schwarz',
+				angriffeWeiß,
+				angriffeSchwarz,
+				posSchwarzerKing
+			)
+		)
 		if (
 			istMatt(
 				brettState,
@@ -466,7 +476,13 @@ spielen()
 Weiß am Zug ,Schwarz etc. durch Überprüfung */
 // Hier nach gibt es drei legitime Züge für Springer
 
-zugMachen('c7-c8')
+zugMachen('e2-e4')
+zugMachen('e7-e5')
+zugMachen('d1-h5')
+zugMachen('b8-c6')
+zugMachen('f1-c4')
+zugMachen('d7-d6')
+zugMachen('h5-f7')
 
 console.log('Angriffe von weiß:')
 console.log('---------------')
