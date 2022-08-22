@@ -25,6 +25,11 @@ export function moeglicheZuegePawn(
 	weißAmZug,
 	enPassantBauer
 ) {
+	console.log('alle übergebenen parameter: ')
+	console.log('ausgangsfeldkoord:', ausgangsfeldKoord)
+	console.log('brettState:', brettState)
+	console.log('weißAmZug:', weißAmZug)
+
 	const zuege = []
 
 	// testen, ob direkt vor dem bauer eine figur schlägt -> nicht ein feld und auch keine zwei züge möglich
@@ -43,14 +48,16 @@ export function moeglicheZuegePawn(
 
 			// insofern 1 vor dem bauern frei ist, testen, ob zwei nach vorne aus grundstellung möglich ist:
 			// Dafür muss Bauer in Grundlinie (für weiß, i = 6 sein)
-			if (brettState[i - 2][j] == '.' && i == 6) {
-				//console.log('Doppelschritt aus Grundlinie möglich ')
-				zuege.push([i - 2, j])
-			} else {
-				//console.log('Doppelschritt für weißen Bauern nicht möglich')
+			// hier habe ich den bug gefunden, dass i - 2 immer überprüft wird, auch wenn der Bauer auf höhe 0 steht, also negative
+			// i-werte entstehen. Muss abgefangen werden in dem i === 6 zuerst überprüft wird:
+			if (i === 6) {
+				if (brettState[i - 2][j] == '.') {
+					//console.log('Doppelschritt aus Grundlinie möglich ')
+					zuege.push([i - 2, j])
+				} else {
+					// direkt vor dem bauern in der grundlinie steht eine figur
+				}
 			}
-		} else {
-			//console.log('direkt vor weißem Bauer steht eine Figur')
 		}
 
 		// testen, ob weiß nach oben-rechts schlagen kann

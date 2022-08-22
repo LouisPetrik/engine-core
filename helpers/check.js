@@ -2,6 +2,9 @@ import { moeglicheZuegeKing } from '../figuren/King'
 import { moeglicheZuegeQueen } from '../figuren/Queen'
 import { moeglicheZuegeBishop } from '../figuren/Bishop'
 import { angriffeFinden, isArrayInArray } from '../Util'
+import { moeglicheZuegeKnight } from '../figuren/Knight'
+import { moeglicheZuegeRook } from '../figuren/Rook'
+import { moeglicheZuegePawn } from '../figuren/Pawn'
 // Eine Datei, die alle Funktionen enhalten soll, die schauen, welche Züge legitim sind nach einem Schach,
 // oder ob es ein Schachmatt ist.
 
@@ -84,6 +87,7 @@ function hebtZugSchachAuf(
  * @param {*} angriffeWeiß
  * @param {*} angriffeSchwarz
  * @param {*} posBetroffenerKing Position des Königs im Schach, damit von dort aus mögliche Züge generiert werden können
+ * @param {*} enPassantBauer, bauer, der aktuell en passant genommen werden kann - wichtig für die bauern datei
  * @return {*} gibt array von Möglichen Zügen für die bedrohte Seite zurück. Insofern das Array leer ist, ist
  * es matt.
  */
@@ -92,7 +96,8 @@ export function istMatt(
 	schachGegen,
 	angriffeWeiß,
 	angriffeSchwarz,
-	posBetroffenerKing
+	posBetroffenerKing,
+	enPassantBauer
 ) {
 	const legitimeZuege = []
 
@@ -164,7 +169,8 @@ export function istMatt(
 		/* jetzt für die verbleibenden figuren der seite über alle möglichen züge gehen, 
         und dann die möglichen brett-states über funktion für die bedrohungen übergeben. Wenn dann in einer dieser
         outcomes der könig nicht mehr im schach steht, wird er gepushed. 
-        Muss noch massiv verkürzt / vereinfacht werden 
+        Muss noch massiv verkürzt / vereinfacht werden . Kann zu einer Funktion vereinfacht werden, die bei der moeglicheZuege basierend auf figur 
+        // generiert wird. im fall von schachGegen schwarz oder weiß kann für weißAmZug einfach schachGegen ? "" : "" syntax genutzt werden. 
         */
 		for (let i = 0; i < figuren.length; i++) {
 			const figur = figuren[i][0]
@@ -265,17 +271,157 @@ export function istMatt(
 					}
 
 					break
+				case 'N':
+				case 'n':
+					if (schachGegen === 'schwarz') {
+						const moeglicheZuege = moeglicheZuegeKnight(
+							position,
+							brettState,
+							false
+						)
+
+						const aufhebendeZuege = hebtZugSchachAuf(
+							position,
+							moeglicheZuege,
+							brettState,
+							posBetroffenerKing,
+							schachGegen
+						)
+
+						legitimeZuege.push(aufhebendeZuege)
+
+						console.log(
+							'Schwarzer Knight kann Schach aufheben mit Zug: ',
+							aufhebendeZuege
+						)
+					}
+					if (schachGegen === 'weiß') {
+						const moeglicheZuege = moeglicheZuegeKnight(
+							position,
+							brettState,
+							true
+						)
+
+						const aufhebendeZuege = hebtZugSchachAuf(
+							position,
+							moeglicheZuege,
+							brettState,
+							posBetroffenerKing,
+							schachGegen
+						)
+
+						legitimeZuege.push(aufhebendeZuege)
+
+						console.log(
+							'Weißer Knight kann Schach aufheben mit Zug: ',
+							aufhebendeZuege
+						)
+					}
+					break
+
+				case 'R':
+				case 'r':
+					if (schachGegen === 'schwarz') {
+						const moeglicheZuege = moeglicheZuegeRook(
+							position,
+							brettState,
+							false
+						)
+
+						const aufhebendeZuege = hebtZugSchachAuf(
+							position,
+							moeglicheZuege,
+							brettState,
+							posBetroffenerKing,
+							schachGegen
+						)
+
+						legitimeZuege.push(aufhebendeZuege)
+
+						console.log(
+							'Schwarzer Rook kann Schach aufheben mit Zug: ',
+							aufhebendeZuege
+						)
+					}
+					if (schachGegen === 'weiß') {
+						const moeglicheZuege = moeglicheZuegeRook(
+							position,
+							brettState,
+							true
+						)
+
+						const aufhebendeZuege = hebtZugSchachAuf(
+							position,
+							moeglicheZuege,
+							brettState,
+							posBetroffenerKing,
+							schachGegen
+						)
+
+						legitimeZuege.push(aufhebendeZuege)
+
+						console.log(
+							'Weißer Rook kann Schach aufheben mit Zug: ',
+							aufhebendeZuege
+						)
+					}
+
+					break
+
+				// die bauern sind ein sonderfall - es kann sein, dass ein bauer durch einen zug nach vorne einen angriff blocken kann,
+				// oder durch diagonales schlagen einen angriff aufheben kann. Beides wird aber schon in der Pawn Datei mit den möglichen Zügen berücksichtigt
+				case 'P':
+				case 'p':
+					if (schachGegen === 'schwarz') {
+						const moeglicheZuege = moeglicheZuegePawn(
+							position,
+							brettState,
+							false,
+							enPassantBauer
+						)
+
+						const aufhebendeZuege = hebtZugSchachAuf(
+							position,
+							moeglicheZuege,
+							brettState,
+							posBetroffenerKing,
+							schachGegen
+						)
+
+						legitimeZuege.push(aufhebendeZuege)
+
+						console.log(
+							'Schwarzer Pawn kann Schach aufheben mit Zug: ',
+							aufhebendeZuege
+						)
+					}
+
+					if (schachGegen === 'weiß') {
+						const moeglicheZuege = moeglicheZuegePawn(
+							position,
+							brettState,
+							true,
+							enPassantBauer
+						)
+
+						const aufhebendeZuege = hebtZugSchachAuf(
+							position,
+							moeglicheZuege,
+							brettState,
+							posBetroffenerKing,
+							schachGegen
+						)
+
+						legitimeZuege.push(aufhebendeZuege)
+
+						console.log(
+							'Schwarzer Pawn kann Schach aufheben mit Zug: ',
+							aufhebendeZuege
+						)
+					}
 			}
 		}
 	}
-
-	/* 
-    Insofern er andere Figuren hat, werden für diese FIguren alle möglichen Züge getestet 
-    (blocken und Schlagen der Schach-gebenden Figur inklusive). 
-    Jeder zug wird auf eine Kopie von brettState übertragen und dann wird über diese Kopie alles an bedrohungen ausgegebn. Insofern 
-    der König, der eben im Schach war, dann nicht mehr im Schach ist, ist der Zug legitim. Sollte auch ein Doppelschach erkennen. 
-
-    */
 
 	return legitimeZuege
 }

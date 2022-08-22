@@ -36,14 +36,14 @@ let halbzugNummer = 1
 // wenn Uppercase Buchstabe, dann weiße Figur - wird sammt State, Koordinate und Figur an
 // die entsprechende Methode in der Klasse der Figur übergeben
 let brettState = [
-	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', '.', '.', '.', 'k'],
-	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', 'r', '.', '.', '.'],
-	['.', '.', 'Q', 'r', '.', '.', '.', '.'],
 	['K', '.', '.', '.', '.', '.', '.', '.'],
+	['.', 'P', 'r', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', 'k', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
 ]
 
 // Hier werden einzelne, angegriffene felder mit "a" markiert, für beide farben jeweils.
@@ -427,7 +427,8 @@ function zugMachen(zugNotation) {
 				'weiß',
 				angriffeWeiß,
 				angriffeSchwarz,
-				posWeißerKing
+				posWeißerKing,
+				enPassantBauer
 			).length === 0
 		) {
 			console.log('Schachmatt, Schwarz gewinnt!')
@@ -465,7 +466,7 @@ spielen()
 Weiß am Zug ,Schwarz etc. durch Überprüfung */
 // Hier nach gibt es drei legitime Züge für Springer
 
-zugMachen('e3-e1')
+zugMachen('c7-c8')
 
 console.log('Angriffe von weiß:')
 console.log('---------------')
