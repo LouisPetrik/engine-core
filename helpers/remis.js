@@ -169,11 +169,6 @@ export function farbeStehtImPatt(
 							false
 						)
 
-						console.log(
-							'remis, mögliche Angriffe weiß: ',
-							moeglicheAngegriffeneFelder[0]
-						)
-
 						if (
 							!isArrayInArray(moeglicheAngegriffeneFelder[0], [
 								posSchwarzerKing[0],
