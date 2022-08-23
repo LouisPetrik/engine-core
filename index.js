@@ -507,11 +507,17 @@ function zugMachen(zugNotation) {
 		// hierzu können die möglichenAngriffe arrays übergeben werden, damit getestet werden kann, ob einer der verbleibenden züge
 		// illegitim ist, da er den eigenen könig schach geben würde.
 
-		farbeStehtImPatt(
-			brettState,
-			moeglicheAngriffeWeiß,
-			moeglicheAngriffeSchwarz,
-			weißAmZug
+		console.log(
+			'patt: ',
+			farbeStehtImPatt(
+				brettState,
+				weißAmZug,
+				angriffeWeiß,
+				angriffeSchwarz,
+				enPassantBauer,
+				posWeißerKing,
+				posSchwarzerKing
+			)
 		)
 	}
 

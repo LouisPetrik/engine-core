@@ -1,20 +1,193 @@
+import { moeglicheZuegeKing } from '../figuren/King'
+import { moeglicheZuegeKnight } from '../figuren/Knight'
+import { moeglicheZuegeRook } from '../figuren/Rook'
+import { moeglicheZuegeBishop } from '../figuren/Bishop'
+import { moeglicheZuegeQueen } from '../figuren/Queen'
+import { moeglicheZuegePawn } from '../figuren/Pawn'
+import { angriffeFinden, isArrayInArray } from '../Util'
+
+// Werden beide wieder benötigt, um zu prüfen, ob ein möglicher Zug zu einem möglichen Angriff gegen den König führt,
+// was den Zug illegitim machen würde.
+let moeglicheAngriffeSchwarz = [
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+]
+
+let moeglicheAngriffeWeiß = [
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+]
+
+// wieder dazugehörige funktion um alles zurückzusetzen
+function moeglicheAngriffeZuruecksetzen() {
+	for (let i = 0; i < moeglicheAngriffeSchwarz.length; i++) {
+		moeglicheAngriffeSchwarz[i].fill('.')
+	}
+
+	for (let i = 0; i < moeglicheAngriffeWeiß.length; i++) {
+		moeglicheAngriffeWeiß[i].fill('.')
+	}
+}
+
 /**
  * Ermittet, ob eine Farbe keine legitimen Züge mehr hat, und daher die partie patt also ein remis ist.
+ * Eine überprüfung auf ein patt muss immer erst erfolgen, nachdem der zug letzte zug legitim war. Daher ist kann nicht das moeglicheAngriffe
+ * array genutzt werden, weil die gegenseite der seite, die am zug ist auf spiebare züge überprüft werden muss.
  * @param brettState aktueller Zustand, auf dem basierend figuren der seite gesammelt werden, damit mögliche züge bestimmt werden können.
- * Eine überprüfung auf ein patt muss immer erst erfolgen, nachdem der zug letzte zug legitim war.
- * @param moeglicheAngriffe zum testen ob ein Zug illegitim ist, weil er eigenem König schach gibt
  * @param weißAmZug wie üblich
+ * @param angriffeWeiß nötig für die moeglicheZuegeKing funktion
+ * @param angriffeSchwarz wie zuvor
+ * @param enPassantBauer nur für die Pawn-möglichen Züge
+ * @param posWeißerking zur überprüfung ob das feld wo der könig steht angegriffen wird
+ * @param posSchwarzer analog wie zuvor
  * @return ob patt erzeugt wurde, true oder false.
  */
 export function farbeStehtImPatt(
 	brettState,
-	moeglicheAngriffe,
-	moeglicheAngriffeSchwarz,
-	weißAmZug
+	weißAmZug,
+	angriffeWeiß,
+	angriffeSchwarz,
+	enPassantBauer,
+	posWeißerKing,
+	posSchwarzerKing
 ) {
+	// by default true, sobald ein zug gefunden wurde, der legitim ist, wird auf false gesetzt
+	let istPatt = true
+
+	const schwarzeFiguren = ['k', 'q', 'p', 'r', 'b', 'n']
+	const weißeFiguren = ['K', 'Q', 'P', 'R', 'B', 'N']
+
 	// zu diesem Zeitpunkt hat weiß gerade einen legitimen zug gemacht, also wird überprüft, ob schwarz nun im patt steht.
+	// da dafür die züge aus sicht von schwarz überprüft werden, wird immer bei den parametern weißAmZug auf false gesetzt
 	if (weißAmZug) {
-		// alle figuren von schwarz finden.
+		// alle figuren von schwarz finden und bestimmmen, ob es in allen figuren noch legitime zügee gibt.
+		for (let i = 0; i < 8; i++) {
+			for (let j = 0; j < 8; j++) {
+				if (schwarzeFiguren.includes(brettState[i][j])) {
+					const gefundeneFigur = brettState[i][j]
+					const positionFigur = [i, j]
+
+					// alle möglichen züge der figur, außer acht gelassen, ob dieser zug eigenem könig schach gibt
+					let moeglicheZuege = []
+					// figur gefunden, jetzt alle züge für sie testen:
+					console.log('schwarze figur, remis.js', gefundeneFigur)
+
+					// abfangen, um welche Figur es sich handelt, und alle möglichen züge generieren,
+					// die dann beurteilt werden, hinsichtlich der möglichen angriffe durch den möglichen zug
+
+					switch (gefundeneFigur) {
+						// eventuell redudndant, da hierhin schon abgefangen wird, dass der könig nicht ins schach laufen darf
+						case 'k':
+							moeglicheZuege = moeglicheZuegeKing(
+								positionFigur,
+								brettState,
+								false,
+								angriffeWeiß,
+								angriffeSchwarz
+							)
+
+							// sobald es einen zug für den King gibt, ist es kein patt
+							if (moeglicheZuege.length >= 1) {
+								istPatt = false
+							}
+							break
+						case 'q':
+							moeglicheZuege = moeglicheZuegeQueen(
+								positionFigur,
+								brettState,
+								false
+							)
+							break
+						case 'p':
+							moeglicheZuege = moeglicheZuegePawn(
+								positionFigur,
+								brettState,
+								false,
+								enPassantBauer
+							)
+							break
+						case 'r':
+							moeglicheZuege = moeglicheZuegeRook(
+								positionFigur,
+								brettState,
+								false
+							)
+							break
+						case 'b':
+							moeglicheZuege = moeglicheZuegeBishop(
+								positionFigur,
+								brettState,
+								false
+							)
+							break
+						case 'n':
+							moeglicheZuege = moeglicheZuegeKnight(
+								positionFigur,
+								brettState,
+								false
+							)
+							break
+					}
+
+					// für jeden einzelnen zug überprüfen, ob er könig in schach setzen würde:
+
+					for (let x = 0; x < moeglicheZuege.length; x++) {
+						let iZielfeld = moeglicheZuege[x][0]
+						let jZielfeld = moeglicheZuege[x][1]
+
+						// unabhängige kopie machen, auf die alle möglichen Züge alle figuren gebracht werden
+						const testBrettState = Array.from(Array(8), () =>
+							new Array(8).fill(null)
+						)
+
+						// alles in die kopie reinschreiben .
+						for (let z = 0; z < 8; z++) {
+							for (let y = 0; y < 8; y++) {
+								testBrettState[z][y] = brettState[z][y]
+							}
+						}
+
+						// den möglichen Zug der figur in den alternativen brettState übernehmen
+						testBrettState[i][j] = '.'
+						testBrettState[iZielfeld][jZielfeld] = gefundeneFigur
+
+						// weißAmZug auf false an dieser Stelle ist vielleicht nicht richtig
+						let moeglicheAngegriffeneFelder = angriffeFinden(
+							testBrettState,
+							false
+						)
+
+						console.log(
+							'remis, mögliche Angriffe weiß: ',
+							moeglicheAngegriffeneFelder[0]
+						)
+
+						if (
+							!isArrayInArray(moeglicheAngegriffeneFelder[0], [
+								posSchwarzerKing[0],
+								posSchwarzerKing[1],
+							])
+						) {
+							istPatt = false
+						}
+					}
+
+					// alle angriffe von schwarz einzeichnen
+				}
+			}
+		}
 	}
-	return true
+	return istPatt
 }

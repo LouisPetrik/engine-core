@@ -53,6 +53,7 @@ export function feldbezeichnungZuKoord(feld) {
  * Gibt alle Felder zurück, die durch alle Figuren einer Farbe angegriffen werden.
  * Könnte man noch komprimieren indem man für alle figuren checkt und insofern weiß,
  * @param {*} brettState Aktueller Zustand nach einem gültigen zug
+ * @param {*} weißAmZug wie üblich
  */
 export function angriffeFinden(brettState, weißAmZug) {
 	const angegriffeneFelderWeiß = []
