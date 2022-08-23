@@ -70,17 +70,19 @@ zugMachen('f4-g3')
 zugMachen('d1-h5')
 
 
-// schwarz stellt weiß stalemate: 
+// schwarz stellt weiß stalemate: Wichtig ist, dass weiß immer den ersten zug machen muss! 
 let brettState = [
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', 'k', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', 'q', '.', '.'],
 	['.', '.', '.', '.', '.', '.', 'q', '.'],
+	['.', '.', '.', '.', '.', '.', 'B', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', '.', '.', '.', 'B'],
 	['.', '.', '.', '.', '.', '.', '.', 'K'],
 ]
+zugMachen("g3-h2")
+zugMachen("f5-h5")
 
 
 // stalemate / patt:

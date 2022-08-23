@@ -54,8 +54,8 @@ let brettState = [
 	['.', 'k', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', 'q', '.', '.'],
 	['.', '.', '.', '.', '.', '.', 'q', '.'],
+	['.', '.', '.', '.', '.', '.', 'B', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', '.', '.', '.', 'B'],
 	['.', '.', '.', '.', '.', '.', '.', 'K'],
 ]
 // Hier werden einzelne, angegriffene felder mit "a" markiert, für beide farben jeweils.
@@ -533,6 +533,7 @@ function spielen() {
 
 spielen()
 
+zugMachen('g3-h2')
 zugMachen('f5-h5')
 
 /* LOGIK FÜR SPIELABLAUF 
