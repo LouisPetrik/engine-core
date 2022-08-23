@@ -63,14 +63,22 @@ zugMachen('c1-g5')
 zugMachen('h7-h6')
 zugMachen('g5-h4')
 zugMachen('g7-g5')
-zugMachen('h4-g3')e
+zugMachen('h4-g3')
 zugMachen('f5-f4')
 zugMachen('e2-e3')
 zugMachen('f4-g3')
 zugMachen('d1-h5')
 
+// eröffnungssequenz, in der weiß direkt kurz rochieren kann und wird
+zugMachen('e2-e4')
+zugMachen('e7-e5')
+zugMachen('g1-f3')
+zugMachen('b8-c6')
+zugMachen('f1-c4')
+zugMachen('f8-c5')
+zugMachen('O-O')
 
-// schwarz stellt weiß stalemate: Wichtig ist, dass weiß immer den ersten zug machen muss! 
+// schwarz stellt weiß stalemate: Wichtig ist, dass weiß immer den ersten zug machen muss!
 let brettState = [
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
@@ -81,9 +89,8 @@ let brettState = [
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', 'K'],
 ]
-zugMachen("g3-h2")
-zugMachen("f5-h5")
-
+zugMachen('g3-h2')
+zugMachen('f5-h5')
 
 // stalemate / patt:
 let brettState = [
@@ -96,9 +103,9 @@ let brettState = [
 	['.', '.', '.', '.', '.', '.', '.', 'b'],
 	['.', '.', '.', '.', '.', '.', '.', 'k'],
 ]
-zugMachen("f5-h5")
+zugMachen('f5-h5')
 
-// ganz knapp kein stalemate: 
+// ganz knapp kein stalemate:
 let brettState = [
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
@@ -109,9 +116,7 @@ let brettState = [
 	['.', '.', '.', '.', '.', '.', '.', 'b'],
 	['.', '.', '.', '.', '.', '.', '.', 'k'],
 ]
-zugMachen("f5-h5")
-
-
+zugMachen('f5-h5')
 
 // bauern-endspiel-matt
 let brettState = [

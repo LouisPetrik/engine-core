@@ -13,6 +13,7 @@ import {
 } from './Util.js'
 import { istMatt } from './helpers/check'
 import { farbeStehtImPatt } from './helpers/remis'
+import { rochadeMoeglich } from './helpers/castle'
 
 // Relevante werte für die partie: (muss final in eine klasse), aber bisher nur zum testen hier drinne
 let weißAmZug = true
@@ -25,6 +26,7 @@ let schwarzHatRochiert = false
 
 // wird beides sofort auf false gesetzt wenn könig bewegt wurde, oder entsprechend auf false,
 // wenn benötigter turm bewegt wurde.
+// kann auf true sein, aber dennoch illegal, da in dieser datei nicht auf mögliche angriffe überprüft wird
 let weißRochadeKurzMoeglich = true
 let weißRochadeLangMoeglich = true
 
@@ -49,14 +51,14 @@ let halbzugNummer = 1
 // wenn Uppercase Buchstabe, dann weiße Figur - wird sammt State, Koordinate und Figur an
 // die entsprechende Methode in der Klasse der Figur übergeben
 let brettState = [
+	['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
+	['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', 'k', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', '.', 'q', '.', '.'],
-	['.', '.', '.', '.', '.', '.', 'q', '.'],
-	['.', '.', '.', '.', '.', '.', 'B', '.'],
 	['.', '.', '.', '.', '.', '.', '.', '.'],
-	['.', '.', '.', '.', '.', '.', '.', 'K'],
+	['.', '.', '.', '.', '.', '.', '.', '.'],
+	['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+	['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
 ]
 // Hier werden einzelne, angegriffene felder mit "a" markiert, für beide farben jeweils.
 // Immer nach einem legitimen zug wird aktualisiert, und somit auch erkannt, ob der könig im schach steht
@@ -158,6 +160,56 @@ function moeglicheZuegeAusgeben(moeglicheZuege, figur) {
 	console.log('Mögliche Züge der Figur ' + figur)
 	for (let i = 0; i < moeglicheZuegeFigur.length; i++) {
 		console.log(moeglicheZuegeFigur[i].join(' '))
+	}
+}
+
+// für alle arten der rochade  und die verwandelung von einem bauern zu einer höheren figur
+function sonderzugMachen(zugNotation) {
+	if (zugNotation === 'O-O' && weißAmZug) {
+		if (
+			weißRochadeKurzMoeglich &&
+			rochadeMoeglich(
+				'kurz',
+				weißAmZug,
+				angriffeWeiß,
+				angriffeSchwarz,
+				brettState
+			)
+		) {
+			// rochade auf dem brett ausführen und andere seite ist wieder am zug:
+			brettState[7][4] = '.'
+			brettState[7][6] = 'K'
+			brettState[7][7] = '.'
+			brettState[7][5] = 'R'
+
+			weißAmZug = !weißAmZug
+		} else {
+			console.log('weiße kurze rochade nicht möglich ')
+		}
+	}
+
+	if (zugNotation === 'O-O-O' && weißAmZug) {
+		if (
+			weißRochadeLangMoeglich &&
+			rochadeMoeglich(
+				'lang',
+				weißAmZug,
+				angriffeWeiß,
+				angriffeSchwarz,
+				brettState
+			)
+		) {
+			// rochade ausführen und andere seite wieder am zug:
+			brettState[7][4] = '.'
+			brettState[7][2] = 'K'
+
+			brettState[7][0] = '.'
+			brettState[7][3] = 'R'
+
+			weißAmZug = !weißAmzug
+		} else {
+			console.log('weiße rochade, lang nicht möglich ')
+		}
 	}
 }
 // Überträgt einen Zug auf direkt auf den Brett-State, ohne zu überprüfen, ob der Zug legitim  ist
@@ -533,9 +585,13 @@ function spielen() {
 
 spielen()
 
-zugMachen('g3-h2')
-zugMachen('f5-h5')
-
+zugMachen('e2-e4')
+zugMachen('e7-e5')
+zugMachen('g1-f3')
+zugMachen('b8-c6')
+zugMachen('f1-c4')
+zugMachen('f8-c5')
+sonderzugMachen('O-O')
 /* LOGIK FÜR SPIELABLAUF 
 Weiß am Zug ,Schwarz etc. durch Überprüfung */
 // Hier nach gibt es drei legitime Züge für Springer

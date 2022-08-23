@@ -48,6 +48,11 @@ Insofern man das eh am ende der zugMachen funktion macht, kann man hier auch gle
    Für weißes o-o dürfen die felder f1 und g1 nicht bedroht sein.
 -  und natürlich müssen die benötigten türme noch existieren, da sie ja auch ohne eigene bewegung geschlagen werden können.
 -  der könig der rochieren will, darf selbst auch nicht im schach stehen. So dass die rochade nicht als entkommen genutzt werden kann.
+-  Oder eigene funktion dafür machen?
+
+### Durchführen der Rochade insofern möglich
+
+Methode zugMachen wird ausgeführt und bekommt einfach O-O oder O-O-O übergeben - je nachdem welche seite gerade am zug ist, für die wird rochade ausgeführt. Position von könig und turm wird einfach vertauscht - das kann direkt am anfang erfolgen. Es muss vermutlich mit if-else unterschieden werden ob es sich um sonderzug oder normalen zug handelt.
 
 ## Ansatz für die verwandelung von einem bauern zu einem anderen piece
 
