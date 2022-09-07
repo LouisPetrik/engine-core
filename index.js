@@ -14,6 +14,7 @@ import {
 import { istMatt } from './helpers/check'
 import { farbeStehtImPatt } from './helpers/remis'
 import { rochadeMoeglich } from './helpers/castle'
+import { moeglicheZuegeBishop } from './figuren/Bishop'
 
 // Relevante werte für die partie: (muss final in eine klasse), aber bisher nur zum testen hier drinne
 let weißAmZug = true
@@ -393,6 +394,15 @@ function zugMachen(zugNotation) {
     case 'B':
     case 'b':
       console.log('Läufer wurde bewegt')
+      moeglicheZuege = moeglicheZuegeBishop(
+        [iAusgangsfeld, jAusgangsfeld],
+        brettState,
+        weißAmZug,
+        angriffeWeiß,
+        angriffeSchwarz
+      )
+
+      moeglicheZuegeAusgeben(moeglicheZuege, 'läufer')
 
       break
 
@@ -587,11 +597,9 @@ spielen()
 
 zugMachen('e2-e4')
 zugMachen('e7-e5')
-zugMachen('g1-f3')
+zugMachen('d1-f3')
 zugMachen('b8-c6')
-zugMachen('f1-c4')
-zugMachen('f8-c5')
-sonderzugMachen('O-O')
+zugMachen('f3-f7')
 /* LOGIK FÜR SPIELABLAUF 
 Weiß am Zug ,Schwarz etc. durch Überprüfung */
 // Hier nach gibt es drei legitime Züge für Springer
