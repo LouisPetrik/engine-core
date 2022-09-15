@@ -14,6 +14,10 @@ Anzahl der lines of code:
 git ls-files | grep '\.js' | xargs wc -l
 ```
 
+Anzahl der lines von jeder art: 
+
+git ls-files | xargs cat | wc -l
+
 ## Ablauf des codes beim spielen
 
 1. Weiß wird aufgefordert Zug zu machen

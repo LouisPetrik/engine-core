@@ -148,7 +148,7 @@ export function farbeStehtImPatt(
 					)*/
 
           if (weißAmZug) {
-            console.log('überprüfen, ob schwarz im patt steht')
+            //console.log('überprüfen, ob schwarz im patt steht')
             if (
               !isArrayInArray(moeglicheAngegriffeneFelder[0], [
                 posSchwarzerKing[0],
@@ -160,7 +160,7 @@ export function farbeStehtImPatt(
           }
 
           if (!weißAmZug) {
-            console.log('überprüfen, ob weiß im Patt steht')
+            //console.log('überprüfen, ob weiß im Patt steht')
             if (
               !isArrayInArray(moeglicheAngegriffeneFelder[1], [
                 posWeißerKing[0],

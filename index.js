@@ -52,14 +52,14 @@ let halbzugNummer = 1
 // wenn Uppercase Buchstabe, dann weiße Figur - wird sammt State, Koordinate und Figur an
 // die entsprechende Methode in der Klasse der Figur übergeben
 let brettState = [
-  ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
-  ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
   ['.', '.', '.', '.', '.', '.', '.', '.'],
   ['.', '.', '.', '.', '.', '.', '.', '.'],
+  ['.', 'K', '.', '.', '.', '.', '.', '.'],
+  ['.', '.', '.', '.', '.', 'Q', '.', '.'],
+  ['.', '.', '.', '.', '.', '.', 'Q', '.'],
   ['.', '.', '.', '.', '.', '.', '.', '.'],
-  ['.', '.', '.', '.', '.', '.', '.', '.'],
-  ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
-  ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
+  ['.', '.', '.', '.', '.', '.', '.', 'b'],
+  ['.', '.', '.', '.', '.', '.', '.', 'k'],
 ]
 // Hier werden einzelne, angegriffene felder mit "a" markiert, für beide farben jeweils.
 // Immer nach einem legitimen zug wird aktualisiert, und somit auch erkannt, ob der könig im schach steht
@@ -595,11 +595,7 @@ function spielen() {
 
 spielen()
 
-zugMachen('e2-e4')
-zugMachen('e7-e5')
-zugMachen('d1-f3')
-zugMachen('b8-c6')
-zugMachen('f3-f7')
+zugMachen('f5-f3')
 /* LOGIK FÜR SPIELABLAUF 
 Weiß am Zug ,Schwarz etc. durch Überprüfung */
 // Hier nach gibt es drei legitime Züge für Springer
